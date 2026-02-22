@@ -33,6 +33,7 @@
                     <li id="nav-gallery"><a href="#gallery"><span>Gallery</span><i class="far fa-image"></i></a></li>
                     <li id="nav-video"><a href="#video"><span>Videos</span><i class="fab fa-youtube"></i></a></li>
                     <li id="nav-payment"><a href="#payment"><span>Payment</span><i class="fas fa-wallet"></i></a></li>
+                    <li id="nav-products" style="display:none;"><a href="#products"><span>Products</span><i class="fas fa-shopping-cart"></i></a></li>
                     <li id="nav-enquiry"><a href="#enquiry"><span>Enquiry</span><i class="fas fa-headset"></i></a></li>
                 </ul>
             </nav>
@@ -145,7 +146,17 @@
                 <div class="row" id="payment-container"></div>
             </section>
 
-            <!-- 7. ENQUIRY -->
+            <!-- 7. PRODUCTS SHOP -->
+            <section id="products" class="box service" style="display:none;">
+                <h2 data-wow-duration="0.8s" class="heading magictime vanishIn wow" id="products-heading">Our Products <span>Shop Now</span></h2>
+                <div class="divider mb-30"></div>
+                <div class="row" id="products-container"></div>
+            </section>
+
+            <!-- 8. CUSTOM SECTIONS (injected dynamically) -->
+            <div id="custom-sections-area"></div>
+
+            <!-- 9. ENQUIRY -->
             <section id="enquiry" class="box enquiry">
                 <h2 data-wow-duration="0.8s" class="heading magictime vanishIn wow">Enquiry <span>Contact</span></h2>
                 <div class="divider mb-30"></div>
@@ -231,10 +242,12 @@
             galleryTitle: 'Gallery', gallerySubtitle: 'Our Images',
             videoTitle: 'Videos', videoSubtitle: 'Youtube',
             paymentTitle: 'Payment', paymentSubtitle: 'We Accept',
+            productsTitle: 'Our Products', productsSubtitle: 'Shop Now',
             socialFacebook: '#', socialInstagram: '#', socialYoutube: '#',
             socialTwitter: '#', socialLinkedin: '#',
             showAbout: true, showService: true, showGallery: true,
             showVideo: true, showPayment: true, showEnquiry: true,
+            showProducts: false,
             showViewCounter: true, showParticles: true, showThemeToggle: true,
             viewCount: '2,100',
             accentColor: '',
@@ -263,13 +276,19 @@
                 {title:'Payment Name', img:'assets/images/payment.png'},
                 {title:'Payment Name', img:'assets/images/payment.png'},
                 {title:'Payment Name', img:'assets/images/payment.png'}
-            ]
+            ],
+            products: [],
+            customSections: []
         };
 
         // ── LOAD & MERGE ────────────────────────────────────────
         var saved = {};
         try { saved = JSON.parse(localStorage.getItem(STORE_KEY)) || {}; } catch(e) {}
         var d = Object.assign({}, defaults, saved);
+        // Deep-copy arrays from saved if present
+        ['services','gallery','videos','payment','products','customSections'].forEach(function(k){
+            if(saved[k]) d[k] = JSON.parse(JSON.stringify(saved[k]));
+        });
 
         // ── HELPERS ─────────────────────────────────────────────
         function $id(id){ return document.getElementById(id); }
@@ -289,12 +308,17 @@
             var el = $id(id);
             if(el) el.style.display = 'none';
         }
+        function show(id, displayVal){
+            var el = $id(id);
+            if(el) el.style.display = displayVal || 'block';
+        }
         function toggleSection(sectionId, visible, navId){
             if(!visible){
                 hide(sectionId);
                 if(navId) hide(navId);
             }
         }
+        function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 
         // ── PROFILE & HOME ──────────────────────────────────────
         setText('business-name',    d.businessName);
@@ -311,13 +335,13 @@
 
         // Contact detail list
         var dp = $id('detail-phone');
-        if(dp){ dp.href = 'tel:' + d.phone.replace(/\s+/g,''); dp.innerHTML = '<span><i class="fa fa-phone"></i></span> ' + d.phone; }
+        if(dp){ dp.href = 'tel:' + d.phone.replace(/\s+/g,''); dp.innerHTML = '<span><i class="fa fa-phone"></i></span> ' + esc(d.phone); }
         var dem = $id('detail-email');
-        if(dem){ dem.href = 'mailto:' + d.email; dem.innerHTML = '<span><i class="fa fa-envelope"></i></span> ' + d.email; }
+        if(dem){ dem.href = 'mailto:' + d.email; dem.innerHTML = '<span><i class="fa fa-envelope"></i></span> ' + esc(d.email); }
         var dfax = $id('detail-fax');
-        if(dfax){ dfax.href = 'tel:' + d.fax.replace(/\s+/g,''); dfax.innerHTML = '<span><i class="fa fa-fax"></i></span> ' + d.fax; }
+        if(dfax){ dfax.href = 'tel:' + d.fax.replace(/\s+/g,''); dfax.innerHTML = '<span><i class="fa fa-fax"></i></span> ' + esc(d.fax); }
         var daddr = $id('detail-address');
-        if(daddr){ daddr.href = d.mapsUrl; daddr.innerHTML = '<span><i class="fa fa-map-marker-alt"></i></span> ' + d.address; }
+        if(daddr){ daddr.href = d.mapsUrl; daddr.innerHTML = '<span><i class="fa fa-map-marker-alt"></i></span> ' + esc(d.address); }
 
         // WhatsApp & Share buttons
         var wab = $id('share-on-whatsapp-button');
@@ -349,13 +373,13 @@
 
         // ── ABOUT ─────────────────────────────────────────────────
         toggleSection('about', d.showAbout, 'nav-about');
-        setHTML('about-heading', d.aboutTitle + ' <span>' + d.aboutSubtitle + '</span>');
+        setHTML('about-heading', esc(d.aboutTitle) + ' <span>' + esc(d.aboutSubtitle) + '</span>');
         setText('about-para1', d.aboutPara1);
         setText('about-para2', d.aboutPara2);
 
         // ── SERVICES ──────────────────────────────────────────────
         toggleSection('service', d.showService, 'nav-service');
-        setHTML('service-heading', d.serviceTitle + ' <span>' + d.serviceSubtitle + '</span>');
+        setHTML('service-heading', esc(d.serviceTitle) + ' <span>' + esc(d.serviceSubtitle) + '</span>');
         var sc = $id('services-container');
         if(sc && d.services && d.services.length){
             sc.innerHTML = d.services.map(function(item){
@@ -363,14 +387,14 @@
                 return '<div class="col-md-6 col-sm-6 col-lg-6 col-xs-12">' +
                     '<div class="item">' +
                     '<div class="product" data-toggle="modal" data-target=".preview" onclick="$(\'#preview-photo\').attr(\'src\',\'' + img.replace(/'/g,"\\'") + '\')">' +
-                    '<img src="' + img + '" class="img-thumbnail" alt="' + item.title + '" /></div>' +
-                    '<h5>' + item.title + '</h5></div></div>';
+                    '<img src="' + img + '" class="img-thumbnail" alt="' + esc(item.title) + '" /></div>' +
+                    '<h5>' + esc(item.title) + '</h5></div></div>';
             }).join('');
         }
 
         // ── GALLERY ───────────────────────────────────────────────
         toggleSection('gallery', d.showGallery, 'nav-gallery');
-        setHTML('gallery-heading', d.galleryTitle + ' <span>' + d.gallerySubtitle + '</span>');
+        setHTML('gallery-heading', esc(d.galleryTitle) + ' <span>' + esc(d.gallerySubtitle) + '</span>');
         var gc = $id('gallery-container');
         if(gc && d.gallery && d.gallery.length){
             gc.innerHTML = d.gallery.map(function(item){
@@ -383,19 +407,26 @@
 
         // ── VIDEOS ────────────────────────────────────────────────
         toggleSection('video', d.showVideo, 'nav-video');
-        setHTML('video-heading', d.videoTitle + ' <span>' + d.videoSubtitle + '</span>');
+        setHTML('video-heading', esc(d.videoTitle) + ' <span>' + esc(d.videoSubtitle) + '</span>');
         var vc = $id('videos-container');
         if(vc && d.videos && d.videos.length){
             vc.innerHTML = d.videos.map(function(item){
+                if(item.localSrc){
+                    // Uploaded local video
+                    return '<div class="col-md-12" style="margin-bottom:20px;">' +
+                        '<p style="font-weight:600;margin-bottom:8px;">' + esc(item.title||'Video') + '</p>' +
+                        '<video controls style="width:100%;border-radius:8px;background:#000;" src="' + item.localSrc + '">' +
+                        'Your browser does not support video playback.</video></div>';
+                }
                 return '<div class="col-md-12">' +
-                    '<iframe src="//www.youtube.com/embed/' + item.id + '" title="' + (item.title||'') + '" ' +
+                    '<iframe src="//www.youtube.com/embed/' + esc(item.id) + '" title="' + esc(item.title||'') + '" ' +
                     'allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>';
             }).join('');
         }
 
         // ── PAYMENT ───────────────────────────────────────────────
         toggleSection('payment', d.showPayment, 'nav-payment');
-        setHTML('payment-heading', d.paymentTitle + ' <span>' + d.paymentSubtitle + '</span>');
+        setHTML('payment-heading', esc(d.paymentTitle) + ' <span>' + esc(d.paymentSubtitle) + '</span>');
         var pc = $id('payment-container');
         if(pc && d.payment && d.payment.length){
             pc.innerHTML = d.payment.map(function(item){
@@ -403,7 +434,64 @@
                 return '<div class="col-md-4 col-sm-4 col-lg-4 col-xs-12">' +
                     '<div class="item" data-toggle="modal" data-target=".preview" onclick="$(\'#preview-photo\').attr(\'src\',\'' + img.replace(/'/g,"\\'") + '\')">' +
                     '<img src="' + img + '" class="img-thumbnail" alt="" /></div>' +
-                    '<h5>' + item.title + '</h5></div>';
+                    '<h5>' + esc(item.title) + '</h5></div>';
+            }).join('');
+        }
+
+        // ── PRODUCTS SHOP ─────────────────────────────────────────
+        if(d.showProducts && d.products && d.products.length){
+            show('products', 'block');
+            show('nav-products', 'block');
+            setHTML('products-heading', esc(d.productsTitle) + ' <span>' + esc(d.productsSubtitle) + '</span>');
+            var prc = $id('products-container');
+            if(prc){
+                prc.innerHTML = d.products.map(function(item){
+                    var img = item.img || '';
+                    var imgHtml = img
+                        ? '<img src="' + img + '" class="img-thumbnail" alt="' + esc(item.name) + '" style="width:100%;height:180px;object-fit:cover;" />'
+                        : '<div style="width:100%;height:180px;background:#f0f0f0;display:flex;align-items:center;justify-content:center;font-size:48px;border-radius:6px;">🛒</div>';
+                    var buyBtn = item.link
+                        ? '<a href="' + esc(item.link) + '" target="_blank" class="myBtn" style="display:inline-block;margin-top:10px;text-decoration:none;">' + esc(item.btn||'Buy Now') + ' <i class="fas fa-shopping-cart"></i></a>'
+                        : '';
+                    return '<div class="col-md-6 col-sm-6 col-lg-4 col-xs-12" style="margin-bottom:24px;">' +
+                        '<div class="item" style="padding:0;overflow:hidden;border-radius:10px;box-shadow:0 2px 12px rgba(0,0,0,0.08);">' +
+                        '<div style="position:relative;">' + imgHtml +
+                        (item.price ? '<span style="position:absolute;top:10px;right:10px;background:#ff6b35;color:#fff;border-radius:20px;padding:4px 12px;font-size:13px;font-weight:700;">' + esc(item.price) + '</span>' : '') +
+                        '</div>' +
+                        '<div style="padding:14px;">' +
+                        '<h5 style="margin:0 0 6px;font-size:15px;font-weight:700;">' + esc(item.name) + '</h5>' +
+                        (item.desc ? '<p style="font-size:13px;color:#666;margin:0 0 10px;line-height:1.5;">' + esc(item.desc) + '</p>' : '') +
+                        buyBtn +
+                        '</div></div></div>';
+                }).join('');
+            }
+        } else {
+            hide('products');
+            hide('nav-products');
+        }
+
+        // ── CUSTOM SECTIONS ───────────────────────────────────────
+        var csArea = $id('custom-sections-area');
+        if(csArea && d.customSections && d.customSections.length){
+            csArea.innerHTML = d.customSections.map(function(sec, i){
+                var secId = 'custom-sec-' + i;
+                var imgHtml = sec.img
+                    ? '<div class="col-md-5 col-xs-12" style="margin-bottom:16px;"><img src="' + sec.img + '" class="img-thumbnail" alt="" style="width:100%;border-radius:8px;" /></div>'
+                    : '';
+                var btnHtml = (sec.btnLabel && sec.btnLink)
+                    ? '<a href="' + esc(sec.btnLink) + '" target="_blank" class="myBtn" style="display:inline-block;margin-top:14px;text-decoration:none;">' + esc(sec.btnLabel) + ' <i class="fas fa-arrow-right"></i></a>'
+                    : '';
+                var contentCols = sec.img ? 'col-md-7 col-xs-12' : 'col-md-12';
+                return '<section id="' + secId + '" class="box about">' +
+                    '<h2 data-wow-duration="0.8s" class="heading magictime vanishIn wow">' + esc(sec.title) +
+                    (sec.subtitle ? ' <span>' + esc(sec.subtitle) + '</span>' : '') + '</h2>' +
+                    '<div class="divider mb-30"></div>' +
+                    '<div class="row">' +
+                    imgHtml +
+                    '<div class="' + contentCols + '">' +
+                    '<p style="line-height:1.8;white-space:pre-wrap;">' + esc(sec.content||'') + '</p>' +
+                    btnHtml +
+                    '</div></div></section>';
             }).join('');
         }
 

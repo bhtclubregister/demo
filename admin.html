@@ -59,7 +59,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 .section-panel.active{display:block;}
 
 /* STAT CARDS */
-.stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:28px;}
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:16px;margin-bottom:28px;}
 .stat-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px;}
 .stat-card .lbl{font-size:11px;color:var(--text2);text-transform:uppercase;letter-spacing:.8px;font-family:'DM Mono',monospace;margin-bottom:8px;}
 .stat-card .val{font-family:'Syne',sans-serif;font-size:28px;font-weight:800;}
@@ -179,6 +179,31 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 ::-webkit-scrollbar{width:5px;}
 ::-webkit-scrollbar-track{background:transparent;}
 ::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px;}
+
+/* UPLOAD AREA */
+.upload-area{border:2px dashed var(--border);border-radius:10px;padding:18px 16px;text-align:center;cursor:pointer;transition:all .2s;position:relative;}
+.upload-area:hover{border-color:var(--accent);background:rgba(91,140,255,.04);}
+.upload-area input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
+.upload-preview{width:100%;height:100px;object-fit:cover;border-radius:8px;margin-top:10px;display:none;}
+.upload-preview.show{display:block;}
+.upload-label{font-size:12px;color:var(--text3);margin-top:6px;}
+.upload-icon{font-size:26px;}
+
+/* PRODUCT CARD */
+.product-card{background:var(--surface2);border:1px solid var(--border);border-radius:10px;overflow:hidden;}
+.product-img-wrap{width:100%;height:130px;background:linear-gradient(135deg,#1c2236,#252a3a);display:flex;align-items:center;justify-content:center;font-size:32px;color:var(--text3);overflow:hidden;position:relative;}
+.product-img-wrap img{width:100%;height:100%;object-fit:cover;}
+.product-price-badge{position:absolute;top:8px;right:8px;background:var(--accent);color:#fff;font-family:'DM Mono',monospace;font-size:11px;font-weight:600;padding:3px 8px;border-radius:20px;}
+.product-body{padding:12px;}
+.product-desc{font-size:12px;color:var(--text3);margin:4px 0 10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.product-buy-link{font-size:11px;color:var(--accent);font-family:'DM Mono';white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block;margin-bottom:8px;}
+
+/* CUSTOM SECTIONS */
+.custom-sec-card{background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:16px;margin-bottom:12px;display:flex;align-items:center;gap:14px;}
+.custom-sec-num{width:34px;height:34px;background:rgba(91,140,255,.15);color:var(--accent);border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:800;font-size:14px;flex-shrink:0;}
+.custom-sec-info{flex:1;min-width:0;}
+.custom-sec-title{font-weight:600;font-size:14px;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.custom-sec-preview{font-size:12px;color:var(--text3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 </style>
 </head>
 <body>
@@ -220,6 +245,8 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
     <div class="nav-item" data-panel="gallery"><div class="icon">🖼️</div>Gallery</div>
     <div class="nav-item" data-panel="videos"><div class="icon">🎬</div>Videos</div>
     <div class="nav-item" data-panel="payment"><div class="icon">💳</div>Payment Methods</div>
+    <div class="nav-item" data-panel="products"><div class="icon">🛒</div>Products Shop</div>
+    <div class="nav-item" data-panel="custom-sections"><div class="icon">➕</div>Custom Sections</div>
     <div class="nav-item" data-panel="social"><div class="icon">🔗</div>Social Links</div>
     <div class="nav-section">Messages</div>
     <div class="nav-item" data-panel="enquiries">
@@ -254,6 +281,8 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
         <div class="stat-card green"><div class="lbl">Enquiries</div><div class="val" id="d-enq">0</div><div class="sub">Received messages</div></div>
         <div class="stat-card yellow"><div class="lbl">Services</div><div class="val" id="d-svc">6</div><div class="sub">Active items</div></div>
         <div class="stat-card red"><div class="lbl">Gallery</div><div class="val" id="d-gal">9</div><div class="sub">Images</div></div>
+        <div class="stat-card blue"><div class="lbl">Products</div><div class="val" id="d-prod">0</div><div class="sub">Shop items</div></div>
+        <div class="stat-card green"><div class="lbl">Custom Sections</div><div class="val" id="d-cs">0</div><div class="sub">Extra content</div></div>
       </div>
       <div style="display:grid;grid-template-columns:2fr 1fr;gap:20px;">
         <div class="card">
@@ -299,8 +328,16 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
         <div class="card-title"><span class="dot"></span>Profile Image</div>
         <div class="form-grid">
           <div class="field"><label>Profile Image Path or URL</label><input id="f-profileImg" type="text" placeholder="assets/images/profile.png"/></div>
+          <div class="field"><label>Upload Image (replaces path above)</label>
+            <div class="upload-area">
+              <div class="upload-icon">📁</div>
+              <div class="upload-label">Click to upload profile image</div>
+              <input type="file" accept="image/*" onchange="handleImgUpload(this,'f-profileImg','profile-img-preview')"/>
+            </div>
+            <img id="profile-img-preview" class="upload-preview" src="" alt="preview"/>
+          </div>
         </div>
-        <p style="font-size:12px;color:var(--text3);margin-top:10px;">Enter the path relative to index.html (e.g. <code style="color:var(--accent);font-family:'DM Mono'">assets/images/profile.png</code>) or a full URL.</p>
+        <p style="font-size:12px;color:var(--text3);margin-top:10px;">Enter the path relative to index.html (e.g. <code style="color:var(--accent);font-family:'DM Mono'">assets/images/profile.png</code>) or upload a file above.</p>
       </div>
       <div class="actions"><button class="btn btn-primary" onclick="saveSection('profile')">💾 Save Profile</button></div>
     </div>
@@ -408,6 +445,38 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
       </div>
     </div>
 
+    <!-- PRODUCTS -->
+    <div class="section-panel" id="panel-products">
+      <div class="sec-header">
+        <div><h2>Products Shop</h2><p>Add products with price, description, image & Buy Now link</p></div>
+        <button class="btn btn-primary" onclick="openProductModal()">+ Add Product</button>
+      </div>
+      <div class="card">
+        <div class="card-title"><span class="dot"></span>Section Heading</div>
+        <div class="form-grid">
+          <div class="field"><label>Title</label><input id="f-productsTitle" type="text" placeholder="Our Products"/></div>
+          <div class="field"><label>Subtitle</label><input id="f-productsSubtitle" type="text" placeholder="Shop Now"/></div>
+        </div>
+        <div class="actions"><button class="btn btn-ghost btn-sm" onclick="saveHeading('productsTitle','productsSubtitle')">💾 Save Heading</button></div>
+      </div>
+      <div class="card">
+        <div class="card-title"><span class="dot"></span>Product Items</div>
+        <div class="items-grid" id="products-grid"></div>
+      </div>
+    </div>
+
+    <!-- CUSTOM SECTIONS -->
+    <div class="section-panel" id="panel-custom-sections">
+      <div class="sec-header">
+        <div><h2>Custom Sections</h2><p>Add extra content sections to your vCard page</p></div>
+        <button class="btn btn-primary" onclick="openCustomSecModal()">+ Add Section</button>
+      </div>
+      <div class="card">
+        <div class="card-title"><span class="dot"></span>Your Custom Sections</div>
+        <div id="custom-sec-list"><div style="text-align:center;padding:32px;color:var(--text3);">📭 No custom sections yet. Click "+ Add Section" to create one.</div></div>
+      </div>
+    </div>
+
     <!-- SOCIAL -->
     <div class="section-panel" id="panel-social">
       <div class="sec-header">
@@ -463,6 +532,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
         <div class="toggle-row"><div class="ti"><h4>Gallery Section</h4><p>Photo gallery grid</p></div><label class="toggle"><input type="checkbox" id="t-showGallery" checked/><span class="slider"></span></label></div>
         <div class="toggle-row"><div class="ti"><h4>Videos Section</h4><p>YouTube embeds</p></div><label class="toggle"><input type="checkbox" id="t-showVideo" checked/><span class="slider"></span></label></div>
         <div class="toggle-row"><div class="ti"><h4>Payment Section</h4><p>Accepted payment methods</p></div><label class="toggle"><input type="checkbox" id="t-showPayment" checked/><span class="slider"></span></label></div>
+        <div class="toggle-row"><div class="ti"><h4>Products Section</h4><p>Products shop with buy links</p></div><label class="toggle"><input type="checkbox" id="t-showProducts" checked/><span class="slider"></span></label></div>
         <div class="toggle-row"><div class="ti"><h4>Enquiry / Contact Form</h4><p>Allow visitors to send messages</p></div><label class="toggle"><input type="checkbox" id="t-showEnquiry" checked/><span class="slider"></span></label></div>
         <div class="toggle-row"><div class="ti"><h4>View Counter</h4><p>Display total page views</p></div><label class="toggle"><input type="checkbox" id="t-showViewCounter" checked/><span class="slider"></span></label></div>
         <div class="toggle-row"><div class="ti"><h4>Particle Background</h4><p>Animated particles effect</p></div><label class="toggle"><input type="checkbox" id="t-showParticles" checked/><span class="slider"></span></label></div>
@@ -513,6 +583,14 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
     <div class="form-grid full" style="gap:16px;">
       <div class="field"><label>Title / Name</label><input type="text" id="mi-title" placeholder="e.g. Web Design"/></div>
       <div class="field"><label>Image path or URL</label><input type="text" id="mi-img" placeholder="assets/images/product.png"/></div>
+      <div class="field"><label>📁 Upload Image File (auto-fills path above)</label>
+        <div class="upload-area">
+          <div class="upload-icon">📸</div>
+          <div class="upload-label">Click to browse & upload image</div>
+          <input type="file" accept="image/*" onchange="handleImgUpload(this,'mi-img','mi-img-preview')"/>
+        </div>
+        <img id="mi-img-preview" class="upload-preview" src="" alt="preview"/>
+      </div>
     </div>
     <div class="modal-actions">
       <button class="btn btn-ghost" onclick="closeItemModal()">Cancel</button>
@@ -524,14 +602,76 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 <!-- ── VIDEO MODAL ────────────────────────────────────── -->
 <div class="modal-ov" id="video-modal">
   <div class="modal-box">
-    <div class="modal-title" id="vid-modal-title">Add YouTube Video</div>
+    <div class="modal-title" id="vid-modal-title">Add Video</div>
     <div class="form-grid full" style="gap:16px;">
-      <div class="field"><label>YouTube Video ID</label><input type="text" id="vi-id" placeholder="e.g. dQw4w9WgXcQ"/><p style="font-size:11px;color:var(--text3);margin-top:4px;">The ID is the part after <code style="color:var(--accent);font-family:'DM Mono'">youtube.com/watch?v=</code></p></div>
       <div class="field"><label>Video Title / Label</label><input type="text" id="vi-title" placeholder="e.g. Company Tour"/></div>
+      <div class="field"><label>YouTube Video ID (optional)</label><input type="text" id="vi-id" placeholder="e.g. dQw4w9WgXcQ"/><p style="font-size:11px;color:var(--text3);margin-top:4px;">The ID is the part after <code style="color:var(--accent);font-family:'DM Mono'">youtube.com/watch?v=</code></p></div>
+      <div class="field"><label>📹 Or Upload Video File (MP4, WebM)</label>
+        <div class="upload-area">
+          <div class="upload-icon">🎬</div>
+          <div class="upload-label">Click to upload local video file</div>
+          <input type="file" accept="video/mp4,video/webm,video/ogg" onchange="handleVideoUpload(this)"/>
+        </div>
+        <p style="font-size:11px;color:var(--text3);margin-top:6px;" id="video-file-name"></p>
+      </div>
     </div>
     <div class="modal-actions">
       <button class="btn btn-ghost" onclick="closeVideoModal()">Cancel</button>
       <button class="btn btn-primary" id="vid-modal-save">💾 Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── PRODUCT MODAL ──────────────────────────────── -->
+<div class="modal-ov" id="product-modal">
+  <div class="modal-box" style="width:580px;max-height:90vh;overflow-y:auto;">
+    <div class="modal-title" id="prod-modal-title">Add Product</div>
+    <div class="form-grid" style="gap:16px;">
+      <div class="field"><label>Product Name</label><input type="text" id="pi-name" placeholder="e.g. Premium Package"/></div>
+      <div class="field"><label>Price (e.g. ₹499 or $9.99)</label><input type="text" id="pi-price" placeholder="₹499"/></div>
+      <div class="field" style="grid-column:1/-1"><label>Short Description</label><textarea id="pi-desc" style="min-height:70px;" placeholder="Brief product description..."></textarea></div>
+      <div class="field"><label>Image Path or URL</label><input type="text" id="pi-img" placeholder="assets/images/product.png"/></div>
+      <div class="field"><label>📁 Upload Product Image</label>
+        <div class="upload-area">
+          <div class="upload-icon">📸</div>
+          <div class="upload-label">Click to upload</div>
+          <input type="file" accept="image/*" onchange="handleImgUpload(this,'pi-img','pi-img-preview')"/>
+        </div>
+        <img id="pi-img-preview" class="upload-preview" src="" alt="preview"/>
+      </div>
+      <div class="field" style="grid-column:1/-1"><label>Buy Now Link (URL)</label><input type="url" id="pi-link" placeholder="https://yourstore.com/product or WhatsApp link"/></div>
+      <div class="field" style="grid-column:1/-1"><label>Button Label</label><input type="text" id="pi-btn" placeholder="Buy Now" value="Buy Now"/></div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeProductModal()">Cancel</button>
+      <button class="btn btn-primary" id="prod-modal-save">💾 Save Product</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── CUSTOM SECTION MODAL ──────────────────────── -->
+<div class="modal-ov" id="custom-sec-modal">
+  <div class="modal-box" style="width:580px;max-height:90vh;overflow-y:auto;">
+    <div class="modal-title" id="cs-modal-title">Add Custom Section</div>
+    <div class="form-grid full" style="gap:16px;">
+      <div class="field"><label>Section Title</label><input type="text" id="cs-title" placeholder="e.g. Our Story, FAQ, Certificates..."/></div>
+      <div class="field"><label>Section Subtitle (optional)</label><input type="text" id="cs-subtitle" placeholder="Optional tagline"/></div>
+      <div class="field"><label>Content / Description</label><textarea id="cs-content" style="min-height:140px;" placeholder="Write your section content here..."></textarea></div>
+      <div class="field"><label>Image URL or Path (optional)</label><input type="text" id="cs-img" placeholder="URL or path to image"/></div>
+      <div class="field"><label>📁 Or Upload Image</label>
+        <div class="upload-area">
+          <div class="upload-icon">📸</div>
+          <div class="upload-label">Click to upload</div>
+          <input type="file" accept="image/*" onchange="handleImgUpload(this,'cs-img','cs-img-preview')"/>
+        </div>
+        <img id="cs-img-preview" class="upload-preview" src="" alt="preview"/>
+      </div>
+      <div class="field"><label>Button Label (optional)</label><input type="text" id="cs-btn-label" placeholder="Learn More"/></div>
+      <div class="field"><label>Button Link (optional)</label><input type="url" id="cs-btn-link" placeholder="https://..."/></div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeCustomSecModal()">Cancel</button>
+      <button class="btn btn-primary" id="cs-modal-save">💾 Save Section</button>
     </div>
   </div>
 </div>
@@ -567,7 +707,7 @@ var DEFAULT_DATA = {
   socialFacebook:'#', socialInstagram:'#', socialYoutube:'#',
   socialGoogleplus:'#', socialTwitter:'#', socialLinkedin:'#',
   showAbout:true, showService:true, showGallery:true, showVideo:true,
-  showPayment:true, showEnquiry:true, showViewCounter:true,
+  showPayment:true, showEnquiry:true, showProducts:true, showViewCounter:true,
   showParticles:true, showThemeToggle:true,
   viewCount:'2,100', accentColor:'',
   metaTitle:'Elevate Modern Business vCard | Personal Portfolio for Business',
@@ -592,7 +732,10 @@ var DEFAULT_DATA = {
     {title:'Payment Name',img:'assets/images/payment.png'},
     {title:'Payment Name',img:'assets/images/payment.png'},
     {title:'Payment Name',img:'assets/images/payment.png'}
-  ]
+  ],
+  products:[],
+  customSections:[],
+  productsTitle:'Our Products', productsSubtitle:'Shop Now'
 };
 
 // ───────────────────────────────────────────────────
@@ -606,7 +749,7 @@ function loadData(){
   try{ saved = JSON.parse(localStorage.getItem(STORE_KEY)) || {}; }catch(e){}
   adminData = Object.assign({}, DEFAULT_DATA, saved);
   // deep copy arrays
-  ['services','gallery','videos','payment'].forEach(function(k){
+  ['services','gallery','videos','payment','products','customSections'].forEach(function(k){
     if(saved[k]) adminData[k] = JSON.parse(JSON.stringify(saved[k]));
     else adminData[k] = JSON.parse(JSON.stringify(DEFAULT_DATA[k]));
   });
@@ -665,7 +808,8 @@ function changePassword(){
 var pageTitles = {
   dashboard:'Dashboard Overview', profile:'Profile & Home', about:'About Us',
   services:'Services / Products', gallery:'Gallery', videos:'Videos',
-  payment:'Payment Methods', social:'Social Links', enquiries:'Enquiries',
+  payment:'Payment Methods', products:'Products Shop', 'custom-sections':'Custom Sections',
+  social:'Social Links', enquiries:'Enquiries',
   appearance:'Appearance', settings:'Settings'
 };
 
@@ -702,6 +846,7 @@ function populateForms(){
     'aboutTitle','aboutSubtitle','aboutPara1','aboutPara2',
     'serviceTitle','serviceSubtitle','galleryTitle','gallerySubtitle',
     'videoTitle','videoSubtitle','paymentTitle','paymentSubtitle',
+    'productsTitle','productsSubtitle',
     'viewCount','metaTitle','metaDesc','accentColor'];
   fields.forEach(function(k){
     var el = f('f-'+k);
@@ -717,7 +862,7 @@ function populateForms(){
   });
 
   // Toggles
-  var toggles = ['showAbout','showService','showGallery','showVideo','showPayment',
+  var toggles = ['showAbout','showService','showGallery','showVideo','showPayment','showProducts',
     'showEnquiry','showViewCounter','showParticles','showThemeToggle'];
   toggles.forEach(function(k){
     var el = f('t-'+k);
@@ -775,7 +920,7 @@ function saveSocial(){
 
 function saveAppearance(){
   adminData.accentColor = f('f-accentColor').value;
-  var toggles = ['showAbout','showService','showGallery','showVideo','showPayment',
+  var toggles = ['showAbout','showService','showGallery','showVideo','showPayment','showProducts',
     'showEnquiry','showViewCounter','showParticles','showThemeToggle'];
   toggles.forEach(function(k){ var el = f('t-'+k); if(el) adminData[k] = el.checked; });
   saveData(); toast('✅ Appearance saved — reload index.html to see changes');
@@ -872,6 +1017,7 @@ function renderGrid(type){
 
 function renderAllGrids(){
   renderGrid('services'); renderGrid('gallery'); renderGrid('payment'); renderVideos();
+  renderProductsGrid(); renderCustomSections();
 }
 
 // ───────────────────────────────────────────────────
@@ -881,12 +1027,14 @@ var vidEditIdx = -1;
 
 function openVideoModal(idx){
   vidEditIdx = idx !== undefined ? idx : -1;
-  f('vid-modal-title').textContent = idx !== undefined ? 'Edit Video' : 'Add YouTube Video';
+  uploadedVideoDataUrl = null;
+  var nm = f('video-file-name'); if(nm) nm.textContent = '';
+  f('vid-modal-title').textContent = idx !== undefined ? 'Edit Video' : 'Add Video';
   var item = idx !== undefined ? adminData.videos[idx] : {id:'',title:''};
   f('vi-id').value    = item.id    || '';
   f('vi-title').value = item.title || '';
   f('video-modal').classList.add('show');
-  f('vi-id').focus();
+  f('vi-title').focus();
 }
 
 function closeVideoModal(){ f('video-modal').classList.remove('show'); }
@@ -894,11 +1042,22 @@ function closeVideoModal(){ f('video-modal').classList.remove('show'); }
 f('vid-modal-save').onclick = function(){
   var id = f('vi-id').value.trim();
   var title = f('vi-title').value.trim();
-  if(!id){ toast('❌ Please enter a YouTube Video ID'); return; }
-  if(vidEditIdx === -1){
-    adminData.videos.push({id:id, title:title});
+  // Support uploaded video
+  if(uploadedVideoDataUrl){
+    if(vidEditIdx === -1){
+      adminData.videos.push({id:'', title:title||'Local Video', localSrc: uploadedVideoDataUrl});
+    } else {
+      adminData.videos[vidEditIdx] = {id:'', title:title||'Local Video', localSrc: uploadedVideoDataUrl};
+    }
+    uploadedVideoDataUrl = null;
+    var nm = f('video-file-name'); if(nm) nm.textContent = '';
   } else {
-    adminData.videos[vidEditIdx] = {id:id, title:title};
+    if(!id){ toast('❌ Please enter a YouTube Video ID or upload a video file'); return; }
+    if(vidEditIdx === -1){
+      adminData.videos.push({id:id, title:title});
+    } else {
+      adminData.videos[vidEditIdx] = {id:id, title:title};
+    }
   }
   saveData(); renderVideos(); closeVideoModal();
   toast('✅ Video saved');
@@ -920,11 +1079,12 @@ function renderVideos(){
   adminData.videos.forEach(function(v, i){
     var row = document.createElement('div');
     row.style.cssText = 'display:flex;align-items:center;gap:14px;padding:14px 0;border-bottom:1px solid var(--border);';
+    var isLocal = v.localSrc && !v.id;
     row.innerHTML =
-      '<div style="width:54px;height:54px;background:rgba(255,0,0,.1);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0;">▶️</div>' +
+      '<div style="width:54px;height:54px;background:rgba(255,0,0,.1);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0;">'+(isLocal?'📹':'▶️')+'</div>' +
       '<div style="flex:1;min-width:0;">' +
         '<div style="font-size:14px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">'+(v.title||'Untitled')+'</div>' +
-        '<div style="font-size:12px;color:var(--text3);font-family:\'DM Mono\',monospace;margin-top:3px;">ID: '+v.id+'</div>' +
+        '<div style="font-size:12px;color:var(--text3);font-family:\'DM Mono\',monospace;margin-top:3px;">'+(isLocal?'📁 Local video file':'ID: '+v.id)+'</div>' +
       '</div>' +
       '<button class="edit-btn" onclick="openVideoModal('+i+')">✏️ Edit</button>' +
       '<button class="del-btn" onclick="delVideo('+i+')">🗑️</button>';
@@ -1004,6 +1164,8 @@ function updateDashboard(){
   f('d-views').textContent = adminData.viewCount || '2,100';
   f('d-svc').textContent  = adminData.services.length;
   f('d-gal').textContent  = adminData.gallery.length;
+  var dprod = f('d-prod'); if(dprod) dprod.textContent = (adminData.products||[]).length;
+  var dcs = f('d-cs'); if(dcs) dcs.textContent = (adminData.customSections||[]).length;
   var enqs = loadEnquiries();
   f('d-enq').textContent  = enqs.length;
   var badge = f('eq-badge');
@@ -1038,10 +1200,197 @@ function updateDashboard(){
 }
 
 // ───────────────────────────────────────────────────
+// IMAGE & VIDEO UPLOAD (base64)
+// ───────────────────────────────────────────────────
+function handleImgUpload(input, targetFieldId, previewId){
+  var file = input.files[0];
+  if(!file) return;
+  if(file.size > 5*1024*1024){ toast('❌ Image too large. Please use files under 5MB.'); return; }
+  var reader = new FileReader();
+  reader.onload = function(e){
+    var dataUrl = e.target.result;
+    var field = f(targetFieldId);
+    if(field) field.value = dataUrl;
+    var preview = f(previewId);
+    if(preview){ preview.src = dataUrl; preview.classList.add('show'); }
+    toast('✅ Image loaded! Save to apply.');
+  };
+  reader.readAsDataURL(file);
+}
+
+var uploadedVideoDataUrl = null;
+function handleVideoUpload(input){
+  var file = input.files[0];
+  if(!file) return;
+  if(file.size > 50*1024*1024){ toast('❌ Video too large. Max 50MB.'); return; }
+  var reader = new FileReader();
+  reader.onload = function(e){
+    uploadedVideoDataUrl = e.target.result;
+    var nm = f('video-file-name');
+    if(nm) nm.textContent = '✅ Loaded: ' + file.name + ' (' + (file.size/1024/1024).toFixed(1) + 'MB)';
+    toast('✅ Video loaded! Save to apply.');
+  };
+  reader.readAsDataURL(file);
+}
+
+// ───────────────────────────────────────────────────
+// PRODUCTS
+// ───────────────────────────────────────────────────
+var prodEditIdx = -1;
+
+function openProductModal(idx){
+  prodEditIdx = idx !== undefined ? idx : -1;
+  f('prod-modal-title').textContent = idx !== undefined ? 'Edit Product' : 'Add Product';
+  var item = idx !== undefined ? adminData.products[idx] : {name:'',price:'',desc:'',img:'',link:'',btn:'Buy Now'};
+  f('pi-name').value  = item.name  || '';
+  f('pi-price').value = item.price || '';
+  f('pi-desc').value  = item.desc  || '';
+  f('pi-img').value   = item.img   || '';
+  f('pi-link').value  = item.link  || '';
+  f('pi-btn').value   = item.btn   || 'Buy Now';
+  var prev = f('pi-img-preview');
+  if(prev){ prev.src = item.img||''; prev.classList.toggle('show', !!item.img); }
+  f('product-modal').classList.add('show');
+}
+
+function closeProductModal(){ f('product-modal').classList.remove('show'); }
+
+f('prod-modal-save').onclick = function(){
+  var name = f('pi-name').value.trim();
+  if(!name){ toast('❌ Product name is required'); return; }
+  var product = {
+    name:  name,
+    price: f('pi-price').value.trim(),
+    desc:  f('pi-desc').value.trim(),
+    img:   f('pi-img').value.trim(),
+    link:  f('pi-link').value.trim(),
+    btn:   f('pi-btn').value.trim() || 'Buy Now'
+  };
+  if(prodEditIdx === -1){ adminData.products.push(product); }
+  else { adminData.products[prodEditIdx] = product; }
+  saveData(); renderProductsGrid(); closeProductModal();
+  toast('✅ Product saved!');
+};
+
+function delProduct(idx){
+  if(!confirm('Delete this product?')) return;
+  adminData.products.splice(idx,1);
+  saveData(); renderProductsGrid(); toast('Product deleted');
+}
+
+function renderProductsGrid(){
+  var g = f('products-grid'); if(!g) return;
+  g.innerHTML = '';
+  if(!adminData.products || !adminData.products.length){
+    var empty = document.createElement('div');
+    empty.style.cssText = 'grid-column:1/-1;text-align:center;padding:32px;color:var(--text3);';
+    empty.textContent = '📭 No products yet. Click "+ Add Product" to add one.';
+    g.appendChild(empty);
+  } else {
+    adminData.products.forEach(function(p, i){
+      var card = document.createElement('div');
+      card.className = 'product-card';
+      card.innerHTML =
+        '<div class="product-img-wrap">'+(p.img?'<img src="'+p.img+'" onerror="this.style.display=\'none\'">':'🛒')+
+        (p.price?'<div class="product-price-badge">'+esc(p.price)+'</div>':'')+
+        '</div>'+
+        '<div class="product-body">'+
+          '<div class="item-title">'+esc(p.name||'(no name)')+'</div>'+
+          '<div class="product-desc">'+esc(p.desc||'')+'</div>'+
+          (p.link?'<a class="product-buy-link" href="'+esc(p.link)+'" target="_blank">🔗 '+esc(p.btn||'Buy Now')+'</a>':'')+
+          '<div class="item-btns">'+
+            '<button class="edit-btn" onclick="openProductModal('+i+')">✏️ Edit</button>'+
+            '<button class="del-btn" onclick="delProduct('+i+')">🗑️</button>'+
+          '</div>'+
+        '</div>';
+      g.appendChild(card);
+    });
+  }
+  var addCard = document.createElement('div');
+  addCard.className = 'add-card';
+  addCard.innerHTML = '<div class="plus">+</div><span>Add Product</span>';
+  addCard.onclick = function(){ openProductModal(); };
+  g.appendChild(addCard);
+}
+
+// ───────────────────────────────────────────────────
+// CUSTOM SECTIONS
+// ───────────────────────────────────────────────────
+var csEditIdx = -1;
+
+function openCustomSecModal(idx){
+  csEditIdx = idx !== undefined ? idx : -1;
+  f('cs-modal-title').textContent = idx !== undefined ? 'Edit Section' : 'Add Custom Section';
+  var item = idx !== undefined ? adminData.customSections[idx] : {title:'',subtitle:'',content:'',img:'',btnLabel:'',btnLink:''};
+  f('cs-title').value     = item.title     || '';
+  f('cs-subtitle').value  = item.subtitle  || '';
+  f('cs-content').value   = item.content   || '';
+  f('cs-img').value       = item.img       || '';
+  f('cs-btn-label').value = item.btnLabel  || '';
+  f('cs-btn-link').value  = item.btnLink   || '';
+  var prev = f('cs-img-preview');
+  if(prev){ prev.src = item.img||''; prev.classList.toggle('show', !!item.img); }
+  f('custom-sec-modal').classList.add('show');
+}
+
+function closeCustomSecModal(){ f('custom-sec-modal').classList.remove('show'); }
+
+f('cs-modal-save').onclick = function(){
+  var title = f('cs-title').value.trim();
+  if(!title){ toast('❌ Section title is required'); return; }
+  var sec = {
+    title:    title,
+    subtitle: f('cs-subtitle').value.trim(),
+    content:  f('cs-content').value.trim(),
+    img:      f('cs-img').value.trim(),
+    btnLabel: f('cs-btn-label').value.trim(),
+    btnLink:  f('cs-btn-link').value.trim()
+  };
+  if(csEditIdx === -1){ adminData.customSections.push(sec); }
+  else { adminData.customSections[csEditIdx] = sec; }
+  saveData(); renderCustomSections(); closeCustomSecModal();
+  toast('✅ Custom section saved!');
+};
+
+function delCustomSec(idx){
+  if(!confirm('Delete this section?')) return;
+  adminData.customSections.splice(idx,1);
+  saveData(); renderCustomSections(); toast('Section deleted');
+}
+
+function renderCustomSections(){
+  var list = f('custom-sec-list'); if(!list) return;
+  if(!adminData.customSections || !adminData.customSections.length){
+    list.innerHTML = '<div style="text-align:center;padding:32px;color:var(--text3);">📭 No custom sections yet. Click "+ Add Section" to create one.</div>';
+    return;
+  }
+  list.innerHTML = '';
+  adminData.customSections.forEach(function(sec, i){
+    var card = document.createElement('div');
+    card.className = 'custom-sec-card';
+    card.innerHTML =
+      '<div class="custom-sec-num">'+(i+1)+'</div>'+
+      '<div class="custom-sec-info">'+
+        '<div class="custom-sec-title">'+esc(sec.title)+(sec.subtitle?' <small style="font-size:11px;color:var(--text3);font-weight:400;">— '+esc(sec.subtitle)+'</small>':'')+'</div>'+
+        '<div class="custom-sec-preview">'+esc(sec.content||'(no content)')+'</div>'+
+        (sec.btnLabel&&sec.btnLink?'<div style="margin-top:6px;"><a href="'+esc(sec.btnLink)+'" target="_blank" style="font-size:12px;color:var(--accent3);">🔗 '+esc(sec.btnLabel)+'</a></div>':'')+
+      '</div>'+
+      (sec.img?'<img src="'+sec.img+'" style="width:54px;height:54px;border-radius:8px;object-fit:cover;flex-shrink:0;" onerror="this.style.display=\'none\'">':'')+
+      '<div style="display:flex;gap:6px;flex-shrink:0;">'+
+        '<button class="edit-btn" onclick="openCustomSecModal('+i+')">✏️ Edit</button>'+
+        '<button class="del-btn" onclick="delCustomSec('+i+')">🗑️</button>'+
+      '</div>';
+    list.appendChild(card);
+  });
+}
+
+// ───────────────────────────────────────────────────
 // CLOSE MODALS ON BACKDROP CLICK
 // ───────────────────────────────────────────────────
 f('item-modal').addEventListener('click', function(e){ if(e.target===this) closeItemModal(); });
 f('video-modal').addEventListener('click', function(e){ if(e.target===this) closeVideoModal(); });
+f('product-modal').addEventListener('click', function(e){ if(e.target===this) closeProductModal(); });
+f('custom-sec-modal').addEventListener('click', function(e){ if(e.target===this) closeCustomSecModal(); });
 
 // ───────────────────────────────────────────────────
 // INIT
