@@ -1,0 +1,743 @@
+/*
+[Main Theme Styles]
+
+Project:  Elevate Modern Business vCard
+URL: https://nishantthummar.tech/
+Author: Nishant Thummar <nishantthummar005@gmail.com>
+Version: 1.0 
+Last update:  01/09/22   
+
+[Table of contents]
+
+1. MIXINS / VARIABLES
+2. FONT FAMILY
+3. TYPOGRAPHY & SCROLLBAR CSS
+4. PARTICLES
+5. COMMON CSS / HEADING CSS
+6. MENU
+7. THEME CHANGER (DARK/LIGHT)
+8. CURSOR ANIMATION STYLE
+9. CARD SECTION STYLES
+    A. Home
+    B. About us
+    C. Service/Product
+    D. Gallery
+    E. Video
+    F. Payment
+    G. Enquiry
+10. FOOTER 
+11. MODAL 
+12. MULTIMEDIA - RESPONSIVE STYLES
+*/
+
+/*----------------------------------------
+    >> 01. MIXINS / VARIABLES
+-----------------------------------------*/
+:root {
+    --bg-color: #42855b; /* Scrollbar & Button */
+}
+[data-theme="dark"] {
+    --main-bg-color1: #111;
+    --main-bg-color2: #333;
+    --main-bg-color3: #555;
+    --white-color: #999;
+    --black-color: #ccc;
+}
+[data-theme="light"] {
+    --main-bg-color1: #ccd6a6;
+    --main-bg-color2: #dae2b6;
+    --main-bg-color3: #dfe8cc;
+    --white-color: #fff;
+    --black-color: #000;
+}
+/*---------------------------------------- 
+    >> 02. FONT FAMILY 
+-----------------------------------------*/
+@font-face {
+    font-family: quicksand-bold;
+    src: url(../fonts/Quicksand-Bold.ttf);
+}
+@font-face {
+    font-family: quicksand-light;
+    src: url(../fonts/Quicksand-Light.ttf);
+}
+@font-face {
+    font-family: quicksand-medium;
+    src: url(../fonts/Quicksand-Medium.ttf);
+}
+@font-face {
+    font-family: quicksand-regular;
+    src: url(../fonts/Quicksand-Regular.ttf);
+}
+@font-face {
+    font-family: quicksand-semibold;
+    src: url(../fonts/Quicksand-SemiBold.ttf);
+}
+/*---------------------------------------- 
+    >> 03. TYPOGRAPHY & SCROLLBAR CSS
+-----------------------------------------*/
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: quicksand-bold;
+}
+p,
+a,
+span,
+label {
+    font-family: quicksand-medium;
+}
+::selection {
+    background: var(--main-bg-color3);
+}
+.center-block {
+    margin: auto;
+    display: block;
+}
+.bg-theme-color {
+    background-color: var(--main-bg-color1);
+}
+* {
+    transition: 0.2s ease-in-out;
+}
+html {
+    scroll-behavior: smooth;
+    overflow-x: hidden;
+}
+/* Scrollbar css start*/
+body::-webkit-scrollbar,
+.menu::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+body::-webkit-scrollbar-track,
+.menu::-webkit-scrollbar-track {
+    background-color: var(--white-color);
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+}
+body::-webkit-scrollbar-thumb,
+.menu::-webkit-scrollbar-thumb {
+    background-color: var(--bg-color);
+    border-radius: 5px;
+}
+/* Scrollbar css end*/
+/*---------------------------------------- 
+    >> 04. PARTICLES CSS
+-----------------------------------------*/
+canvas {
+    display: block;
+    vertical-align: bottom;
+}
+#particles-js {
+    position: fixed;
+    z-index: -1;
+    width: 100%;
+    height: 100%;
+}
+/*---------------------------------------- 
+    >> 05. COMMON CSS / HEADING CSS
+-----------------------------------------*/
+.container-custom {
+    z-index: 5;
+    margin: 30px auto;
+    width: 50%;
+    padding: 30px;
+}
+.container-custom-1 {
+    margin: auto;
+    width: 100%;
+}
+.heading {
+    font-size: 60px;
+    text-align: center;
+    letter-spacing: 5px;
+    color: rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+.heading span {
+    position: absolute;
+    top: 27px;
+    text-transform: uppercase;
+    letter-spacing: 15px;
+    text-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    left: 45%;
+    font-size: 20px;
+    color: var(--black-color);
+    transform: translateX(-35%);
+}
+article {
+    padding: 100px;
+}
+article h5 {
+    color: var(--black-color);
+}
+/*---------------------------------------- 
+    >> 06. MENU CSS
+-----------------------------------------*/
+.sidebar-menu {
+    position: fixed;
+    width: 100%;
+    background-color: var(--main-bg-color3);
+    bottom: 0px;
+    z-index: 999;
+    box-shadow: -9px -3px 18px 0px rgb(0 0 0 / 45%);
+    -webkit-box-shadow: -9px -3px 18px 0px rgb(0 0 0 / 45%);
+}
+.menu {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0;
+    overflow: auto;
+    white-space: nowrap;
+    padding-right: 30px;
+}
+.menu li {
+    transition: 0.5s;
+    list-style: none;
+    padding: 10px;
+    text-align: center;
+    border-left: 1px solid transparent;
+    border-right: 1px solid transparent;
+}
+.menu li a i {
+    display: block;
+    font-size: 14px;
+}
+.menu li a span {
+    transition: 0.5s;
+    font-size: 14px;
+}
+.menu li a {
+    text-decoration: none;
+    color: var(--black-color);
+    font-size: 14px;
+    outline: none;
+}
+.menu li.active {
+    background-color: var(--main-bg-color1);
+    border-left: 1px solid rgba(0, 0, 0, 0.2);
+    border-right: 1px solid rgba(0, 0, 0, 0.2);
+}
+/*---------------------------------------- 
+    >> 07. THEME CHANGER (DARK/LIGHT)
+-----------------------------------------*/
+.theme-changer {
+    position: fixed;
+    right: 0;
+    bottom: 65px;
+    transform: translateY(-50%);
+}
+.theme-changer .switch {
+    display: inline-block;
+    position: relative;
+    width: 50px;
+    height: 25px;
+    border-radius: 20px;
+    background: var(--black-color);
+    transition: background 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+    vertical-align: middle;
+    cursor: pointer;
+}
+.theme-changer .switch::before {
+    content: "";
+    position: absolute;
+    top: 3px;
+    left: 2px;
+    width: 20px;
+    height: 20px;
+    background: var(--main-bg-color3);
+    border-radius: 50%;
+    transition: left 0.28s cubic-bezier(0.4, 0, 0.2, 1), background 0.28s cubic-bezier(0.4, 0, 0.2, 1),
+        box-shadow 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.theme-changer .switch:active::before {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.28), 0 0 0 20px rgba(128, 128, 128, 0.1);
+}
+.theme-changer input:checked + .switch {
+    background: var(--main-bg-color3);
+}
+.theme-changer input:checked + .switch::before {
+    left: 28px;
+    background: #fff;
+}
+.theme-changer input:checked + .switch:active::before {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.28), 0 0 0 20px rgba(0, 150, 136, 0.2);
+}
+/*---------------------------------------- 
+    >> 08. CURSOR ANIMATION STYLE
+-----------------------------------------*/
+.cursor {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    position: absolute;
+    transition-duration: 200ms;
+    transition-timing-function: ease-out;
+    animation: cursorAnim 0.5s infinite alternate;
+    pointer-events: none;
+}
+.cursor::after {
+    content: "";
+    width: 50px;
+    height: 50px;
+    position: absolute;
+    border: 8px solid #fff;
+    border-radius: 50%;
+    opacity: 0.5;
+    top: -2px;
+    left: -2px;
+    animation: cursorAnim2 0.5s infinite alternate;
+}
+@keyframes cursorAnim {
+    from {
+        transform: scale(1);
+    }
+    to {
+        transform: scale(0.7);
+    }
+}
+@keyframes cursorAnim2 {
+    from {
+        transform: scale(1);
+    }
+    to {
+        transform: scale(0.4);
+    }
+}
+@keyframes cursorAnim3 {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(3);
+    }
+    100% {
+        transform: scale(1);
+        opacity: 0;
+    }
+}
+.expand {
+    animation: cursorAnim3 0.5s forwards;
+    border: 1px solid #c8c6a7;
+}
+/*---------------------------------------- 
+    >> 09. CARD SECTION STYLES
+-----------------------------------------*/
+
+/* >> A. Home start */
+.box {
+    padding: 50px;
+    margin-bottom: 10px;
+    box-shadow: 8px 29px 62px -43px rgba(0, 0, 0, 0.45);
+    -webkit-box-shadow: 8px 29px 62px -43px rgba(0, 0, 0, 0.45);
+    background-image: linear-gradient(
+        40deg,
+        #ccd6a6 5%,
+        #dae2b6 5%,
+        #dae2b6 7%,
+        #ccd6a6 7%,
+        #ccd6a6 8%,
+        #dae2b6 8%,
+        #dae2b6 92%,
+        #ccd6a6 92%,
+        #ccd6a6 93%,
+        #dae2b6 93%,
+        #dae2b6 95%,
+        #ccd6a6 95%
+    );
+    -moz-box-shadow: 8px 29px 62px -43px rgba(0, 0, 0, 0.45);
+}
+.box-dark {
+    padding: 50px;
+    margin-bottom: 10px;
+    box-shadow: 8px 29px 62px -43px rgba(0, 0, 0, 0.45);
+    -webkit-box-shadow: 8px 29px 62px -43px rgba(0, 0, 0, 0.45);
+    background-image: linear-gradient(
+        40deg,
+        #555 5%,
+        #333 5%,
+        #333 7%,
+        #555 7%,
+        #555 8%,
+        #333 8%,
+        #333 92%,
+        #555 92%,
+        #555 93%,
+        #333 93%,
+        #333 95%,
+        #555 95%
+    );
+    -moz-box-shadow: 8px 29px 62px -43px rgba(0, 0, 0, 0.45);
+}
+.profile {
+    margin: auto;
+    display: block;
+}
+.profile img {
+    margin-bottom: 10px;
+}
+.business-name {
+    margin: 0;
+    font-size: 20px;
+    text-align: center;
+    font-weight: 500;
+    color: var(--black-color);
+}
+.owner-name {
+    font-size: 14px;
+    margin-top: 1px;
+    text-align: center;
+    color: var(--black-color);
+    font-weight: 500;
+}
+.divider {
+    width: 50%;
+    margin: 15px auto;
+    border-top: 1px solid rgba(0, 0, 0, 0.2);
+    height: 1px;
+}
+.contact-info {
+    margin: auto;
+    flex-wrap: nowrap;
+    display: flex;
+}
+.contact-info a {
+    width: 24%;
+    margin-right: 10px;
+    color: var(--black-color);
+    padding: 7px 10px;
+    text-align: center;
+    font-size: 14px;
+    cursor: pointer;
+    border: 1px solid var(--black-color);
+    text-decoration: none;
+    background: var(--main-bg-color3);
+    position: relative;
+    transition: ease-out 0.5s;
+    -webkit-transition: ease-out 0.5s;
+    -moz-transition: ease-out 0.5s;
+    margin-bottom: 5px;
+}
+.myBtn-1 {
+    width: 100%;
+    display: inline-block;
+    margin-top: 3px;
+    margin-right: 0.8px;
+    color: var(--black-color) !important;
+    padding: 10px;
+    text-align: center;
+    font-size: 14px;
+    cursor: pointer;
+    text-decoration: none !important;
+    border: 1px solid var(--black-color);
+    text-decoration: none;
+    background: var(--main-bg-color3);
+    position: relative;
+    transition: ease-out 0.5s;
+    -webkit-transition: ease-out 0.5s;
+    -moz-transition: ease-out 0.5s;
+}
+.myBtn::after,
+.myBtn::before,
+.myBtn-1::after,
+.myBtn-1::before {
+    position: absolute;
+    content: "";
+    width: 0;
+    height: 0;
+    transition: 0.5s;
+}
+.myBtn::after,
+.myBtn-1::after {
+    top: -5px;
+    left: -5px;
+    border-top: 2px solid transparent;
+    border-left: 2px solid transparent;
+}
+.myBtn::before,
+.myBtn-1::before {
+    bottom: -5px;
+    right: -5px;
+    border-bottom: 2px solid transparent;
+    border-right: 2px solid transparent;
+}
+.myBtn:hover,
+.myBtn-1:hover {
+    color: var(--black-color);
+}
+.myBtn:hover,
+.myBtn-1:hover {
+    background: var(--main-bg-color);
+    color: var(--black-color);
+}
+.myBtn:hover::after,
+.myBtn:hover::before,
+.myBtn-1:hover::after,
+.myBtn-1:hover::before {
+    width: 30px;
+    height: 30px;
+    border-color: var(--black-color);
+}
+.myBtn i,
+.myBtn-1 i {
+    color: var(--black-color);
+    transition: 0.5s ease;
+}
+.myBtn:hover i,
+.myBtn-1:hover i {
+    margin-left: 10px;
+    color: var(--black-color);
+}
+
+.contact-detail li {
+    list-style: none;
+    margin-bottom: 12px;
+}
+.contact-detail {
+    margin-top: 14px;
+    padding-left: 0;
+}
+.contact-detail li a {
+    color: var(--black-color);
+    text-decoration: none;
+    font-size: 14px;
+}
+.contact-detail li a span {
+    vertical-align: central;
+    display: inline-block;
+    width: 25px;
+    height: 25px;
+    border-radius: 100%;
+    border: 1px solid var(--black-color);
+    line-height: 25px;
+    text-align: center;
+    margin-right: 10px;
+}
+.share-whatsapp {
+    padding-left: 2px;
+    padding-right: 2px;
+}
+.share-whatsapp input {
+    float: left;
+    font-size: 14px;
+    width: 50%;
+    padding: 10px 15px;
+    border: none;
+    outline: none;
+    background: var(--white-color);
+}
+.share-whatsapp a {
+    float: left;
+    text-decoration: none;
+    text-align: center;
+    font-size: 14px;
+    width: 50%;
+    padding: 10px 15px;
+    border: none;
+    outline: none;
+    background: var(--bg-color);
+    color: #fff;
+}
+.share-whatsapp input::placeholder {
+    color: var(--black-color);
+}
+.social-share {
+    text-align: center;
+    margin-top: 5px;
+}
+.social-share a {
+    color: var(--black-color);
+    margin-right: 12px;
+    font-size: 20px;
+}
+/* << Home End */
+
+/* >> B) About Start */
+.about p {
+    font-size: 14px;
+    text-align: justify;
+    color: var(--black-color);
+}
+/* << About End */
+
+/* >> C) Service & product Start */
+.service .item {
+    margin-bottom: 20px;
+}
+.product {
+    overflow: hidden;
+}
+.photo {
+    width: 100%;
+    object-fit: contain;
+}
+.product img {
+    transition: 0.5s ease-in-out;
+}
+.product img:hover {
+    transform: scale(1.1, 1.1);
+}
+.service h5 {
+    margin-top: 5px;
+    font-size: 16px;
+    text-align: center;
+}
+/* << Service & product End */
+
+/* >> D) Gallery Start */
+.gallery {
+    overflow: hidden;
+}
+.gallery .item {
+    margin-bottom: 4px;
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+.gallery img {
+    width: 100%;
+    object-fit: cover;
+    transition: 1s ease-in-out;
+}
+.gallery img:hover {
+    transform: scale(1.3, 1.3);
+}
+/* << Gallery End */
+
+/* >> E) Video Start */
+.video iframe {
+    width: 100% !important;
+    height: 250px !important;
+    margin-bottom: 3px;
+    border: none;
+}
+/* << Video End */
+
+/* >> F) Payment Start */
+.product {
+    overflow: hidden;
+}
+.payment .item img {
+    display: block;
+    margin: auto;
+    transition: 1s ease-in-out;
+}
+.payment .item img:hover {
+    transform: scale(1, 1);
+}
+.payment h5 {
+    font-size: 14px;
+    margin-top: 5px;
+    text-align: center;
+}
+/* << Payment End */
+
+/* >> G) Enquiry Start */
+.txt {
+    font-size: 14px;
+    width: 100%;
+    border-radius: 3px;
+    padding: 10px 15px;
+    border: none;
+    margin-bottom: 30px;
+    outline: none;
+    background: var(--white-color);
+}
+textarea.txt {
+    resize: vertical;
+    min-height: 150px;
+}
+.enquiry .btn {
+    font-size: 14px;
+    width: 100%;
+    padding: 10px 15px;
+    border: none;
+    outline: none;
+    background: var(--bg-color);
+    color: #fff;
+}
+.txt::placeholder {
+    color: var(--black-color);
+}
+/* << Enquiry End */
+
+/*---------------------------------------- 
+    >> 10. FOOTER
+-----------------------------------------*/
+footer {
+    margin-bottom: 90px;
+}
+footer p {
+    font-size: 14px;
+    color: var(--black-color);
+}
+/*---------------------------------------- 
+    >> 11. MODAL
+-----------------------------------------*/
+.modal {
+    background-color: rgba(0, 0, 0, 0.8);
+}
+.modal .modal-content {
+    background-color: transparent;
+    border: none;
+}
+.modal .modal-content .img-thumbnail {
+    background-color: transparent;
+    border: none;
+}
+/*---------------------------------------- 
+    >> 12. MULTIMEDIA - RESPONSIVE STYLES
+-----------------------------------------*/
+@media only screen and (max-width: 600px) {
+    .container-custom {
+        width: 100%;
+    }
+    .contact-info a {
+        width: 45%;
+    }
+    .contact-info {
+        flex-wrap: wrap;
+    }
+    .heading {
+        font-size: 40px;
+    }
+    .heading span {
+        top: 15px;
+        letter-spacing: 0;
+        font-size: 20px;
+    }
+    .share-whatsapp input {
+        width: 100%;
+    }
+    .share-whatsapp a {
+        width: 100%;
+    }
+    .box {
+        padding: 25px !important;
+    }
+}
+/*responsive start*/
+@media only screen and (max-width: 1080px) {
+    .container-custom {
+        width: 100%;
+    }
+    .contact-info a {
+        width: 45%;
+    }
+    .heading {
+        font-size: 40px;
+    }
+    .heading span {
+        top: 15px;
+        letter-spacing: 0;
+        font-size: 20px;
+    }
+    .share-whatsapp input {
+        width: 100%;
+    }
+    .share-whatsapp a {
+        width: 100%;
+    }
+}
