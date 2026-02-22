@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"/>
+<meta name="description" id="meta-description" content="Service Provider vCard"/>
+<title id="page-title-tag">Service Pro</title>
+<link rel="stylesheet" href="assets/css/bootstrap.min.css"/>
+<link rel="stylesheet" href="assets/css/fontawesome.css"/>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet"/>
+<style id="admin-theme-style"></style>
+<style>
+:root{--orange:#ff6b35;--orange2:#ff9a6c;--yellow:#ffc107;--dark:#1a0f05;--surface:#fff;--surface2:#fff8f5;--border:#ffe0cc;--text:#2d1a0a;--text2:#7a5a3a;--radius:14px;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Nunito',sans-serif;background:#f5f0eb;color:var(--text);min-height:100vh;}
+
+/* TOP NAV */
+.top-nav{position:sticky;top:0;z-index:100;background:#fff;border-bottom:2px solid var(--border);padding:0 8px;display:flex;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;}
+.top-nav::-webkit-scrollbar{display:none;}
+.top-nav a{display:flex;align-items:center;gap:5px;padding:12px 12px;color:var(--text2);text-decoration:none;font-size:12px;font-weight:700;white-space:nowrap;border-bottom:3px solid transparent;margin-bottom:-2px;transition:all .2s;}
+.top-nav a.active,.top-nav a:hover{color:var(--orange);border-bottom-color:var(--orange);}
+.top-nav a i{font-size:14px;}
+
+.wrapper{max-width:480px;margin:0 auto;padding:14px 14px 40px;}
+
+/* HOME CARD */
+.home-card{background:var(--surface);border-radius:20px;overflow:hidden;margin-bottom:14px;box-shadow:0 4px 20px rgba(255,107,53,0.1);}
+.home-hero{background:linear-gradient(135deg,var(--orange),var(--orange2));padding:24px 20px 70px;position:relative;overflow:hidden;}
+.home-hero::before{content:'';position:absolute;bottom:-30px;left:-30px;width:200px;height:200px;border-radius:50%;background:rgba(255,255,255,0.08);}
+.home-hero::after{content:'';position:absolute;top:-40px;right:-40px;width:160px;height:160px;border-radius:50%;background:rgba(255,255,255,0.06);}
+.hero-text{position:relative;z-index:1;}
+.hero-badge{display:inline-block;background:rgba(255,255,255,0.2);color:#fff;border-radius:20px;padding:3px 12px;font-size:11px;font-weight:700;letter-spacing:.5px;margin-bottom:8px;}
+.biz-name{font-size:26px;font-weight:900;color:#fff;line-height:1.1;margin-bottom:4px;}
+.owner-sub{font-size:13px;color:rgba(255,255,255,0.85);}
+.profile-row{display:flex;align-items:flex-end;gap:14px;padding:0 20px;margin-top:-44px;margin-bottom:16px;}
+.profile-img-box{width:88px;height:88px;border-radius:16px;border:4px solid #fff;overflow:hidden;flex-shrink:0;box-shadow:0 4px 16px rgba(255,107,53,0.3);}
+.profile-img-box img{width:100%;height:100%;object-fit:cover;}
+.quick-btns{display:flex;gap:8px;flex:1;}
+.q-btn{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 4px;background:var(--surface2);border:1.5px solid var(--border);border-radius:10px;color:var(--orange);text-decoration:none;font-size:10px;font-weight:700;transition:all .2s;}
+.q-btn i{font-size:18px;}
+.q-btn:hover{background:var(--orange);color:#fff;border-color:var(--orange);}
+.contact-list{list-style:none;padding:0 20px;margin:0;}
+.contact-list li{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--border);}
+.contact-list li:last-child{border-bottom:none;}
+.c-icon{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--orange),var(--orange2));color:#fff;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;}
+.contact-list a{color:var(--text);text-decoration:none;font-size:13px;font-weight:600;}
+.divider{height:1px;background:var(--border);margin:14px 20px;}
+.wa-box{padding:0 20px 14px;}
+.wa-row{display:flex;gap:8px;}
+.wa-row input{flex:1;border:1.5px solid var(--border);border-radius:10px;padding:10px 12px;font-family:'Nunito',sans-serif;font-size:13px;color:var(--text);outline:none;}
+.wa-row input:focus{border-color:var(--orange);}
+.wa-btn{padding:10px 14px;background:linear-gradient(135deg,#25d366,#128c7e);color:#fff;border-radius:10px;font-weight:700;font-size:13px;text-decoration:none;cursor:pointer;white-space:nowrap;}
+.two-btns{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:0 20px 14px;}
+.two-btn{display:flex;align-items:center;justify-content:center;gap:6px;padding:11px;background:linear-gradient(135deg,var(--orange),var(--orange2));color:#fff;border-radius:12px;font-size:13px;font-weight:700;text-decoration:none;cursor:pointer;box-shadow:0 4px 12px rgba(255,107,53,0.3);}
+.socials{display:flex;gap:8px;justify-content:center;padding:0 20px 20px;flex-wrap:wrap;}
+.socials a{width:36px;height:36px;border-radius:10px;background:var(--surface2);border:1.5px solid var(--border);color:var(--orange);font-size:15px;display:flex;align-items:center;justify-content:center;text-decoration:none;transition:all .2s;}
+.socials a:hover{background:linear-gradient(135deg,var(--orange),var(--orange2));color:#fff;border-color:transparent;}
+.view-bar{text-align:right;font-size:12px;color:var(--text2);margin-bottom:10px;}
+.view-bar i{color:var(--orange);}
+
+/* SECTION CARDS */
+.sec-card{background:var(--surface);border-radius:18px;padding:20px;margin-bottom:14px;box-shadow:0 2px 12px rgba(0,0,0,0.05);}
+.sec-head{display:flex;align-items:center;gap:10px;margin-bottom:16px;}
+.sec-icon{width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,var(--orange),var(--orange2));color:#fff;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
+.sec-title{font-size:18px;font-weight:800;color:var(--text);}
+.sec-subtitle{font-size:11px;color:var(--text2);font-weight:600;}
+.sec-text{color:var(--text2);font-size:14px;line-height:1.8;}
+
+.srv-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.srv-item{border-radius:12px;overflow:hidden;background:var(--surface2);border:1.5px solid var(--border);}
+.srv-item img{width:100%;height:90px;object-fit:cover;}
+.srv-title{padding:8px 10px;font-size:12px;font-weight:700;color:var(--text);text-align:center;}
+
+.gal-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;}
+.gal-item img{width:100%;height:80px;object-fit:cover;border-radius:8px;display:block;}
+
+.vid-item{margin-bottom:10px;}
+.vid-item iframe,.vid-item video{width:100%;height:195px;border-radius:10px;border:none;}
+
+.pay-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;}
+.pay-item{background:var(--surface2);border:1.5px solid var(--border);border-radius:10px;padding:10px;text-align:center;}
+.pay-item img{width:100%;height:40px;object-fit:contain;}
+.pay-title{font-size:11px;color:var(--text2);font-weight:600;margin-top:5px;}
+
+.prod-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.prod-card{background:var(--surface2);border:1.5px solid var(--border);border-radius:12px;overflow:hidden;}
+.prod-card img{width:100%;height:110px;object-fit:cover;}
+.prod-body{padding:10px;}
+.prod-name{font-size:13px;font-weight:700;color:var(--text);}
+.prod-price{font-size:12px;color:var(--orange);font-weight:700;margin:3px 0;}
+.prod-btn{display:block;margin-top:8px;padding:7px;background:linear-gradient(135deg,var(--orange),var(--orange2));color:#fff;border-radius:8px;font-size:12px;font-weight:700;text-align:center;text-decoration:none;}
+
+.enq-form .enq-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;}
+.enq-form input,.enq-form textarea{width:100%;border:1.5px solid var(--border);border-radius:10px;padding:10px 14px;font-family:'Nunito',sans-serif;font-size:13px;color:var(--text);outline:none;transition:border-color .2s;}
+.enq-form input:focus,.enq-form textarea:focus{border-color:var(--orange);}
+.enq-form textarea{min-height:80px;resize:vertical;width:100%;margin-bottom:10px;}
+.enq-btn{width:100%;padding:12px;background:linear-gradient(135deg,var(--orange),var(--orange2));color:#fff;border:none;border-radius:12px;font-size:15px;font-family:'Nunito',sans-serif;font-weight:800;cursor:pointer;box-shadow:0 4px 16px rgba(255,107,53,0.35);}
+</style>
+</head>
+<body>
+
+<nav class="top-nav" id="top-nav">
+  <a href="#home" class="active"><i class="fas fa-home"></i>Home</a>
+  <a href="#about" id="nav-about"><i class="far fa-address-card"></i>About</a>
+  <a href="#service" id="nav-service"><i class="fas fa-tools"></i>Services</a>
+  <a href="#gallery" id="nav-gallery"><i class="far fa-image"></i>Gallery</a>
+  <a href="#video" id="nav-video"><i class="fab fa-youtube"></i>Video</a>
+  <a href="#payment" id="nav-payment"><i class="fas fa-wallet"></i>Payment</a>
+  <a href="#products" id="nav-products" style="display:none;"><i class="fas fa-shopping-cart"></i>Shop</a>
+  <a href="#enquiry" id="nav-enquiry"><i class="fas fa-headset"></i>Call Us</a>
+</nav>
+
+<div class="wrapper">
+  <div class="view-bar" id="total-view"><i class="fa fa-eye"></i> <span id="view-count">1,000</span> views</div>
+
+  <section id="home" class="home-card">
+    <div class="home-hero">
+      <div class="hero-text">
+        <div class="hero-badge" id="person-type-display">Service Pro</div>
+        <div class="biz-name" id="business-name">Pro Services</div>
+        <div class="owner-sub"><span id="owner-name-display">Expert Name</span><span id="biz-position"></span></div>
+      </div>
+    </div>
+    <div class="profile-row">
+      <div class="profile-img-box"><img id="profile-img" src="assets/images/profile.png" alt="Profile"/></div>
+      <div class="quick-btns">
+        <a class="q-btn" id="btn-call" href="#"><i class="fa fa-phone"></i>Call</a>
+        <a class="q-btn" id="btn-email" href="#"><i class="fa fa-envelope"></i>Email</a>
+        <a class="q-btn" id="btn-website" href="#"><i class="fa fa-globe"></i>Web</a>
+        <a class="q-btn" id="btn-direction" href="#"><i class="fa fa-map-marker-alt"></i>Map</a>
+      </div>
+    </div>
+    <ul class="contact-list">
+      <li><div class="c-icon"><i class="fa fa-phone"></i></div><a id="detail-phone" href="#">+91 98765 43210</a></li>
+      <li><div class="c-icon"><i class="fa fa-envelope"></i></div><a id="detail-email" href="#">demo@gmail.com</a></li>
+      <li><div class="c-icon"><i class="fa fa-fax"></i></div><a id="detail-fax" href="#">022-12345678</a></li>
+      <li><div class="c-icon"><i class="fa fa-map-marker-alt"></i></div><a id="detail-address" href="#">Mumbai, Maharashtra</a></li>
+    </ul>
+    <div class="divider"></div>
+    <div class="wa-box">
+      <div class="wa-row">
+        <input type="tel" maxlength="12" placeholder="WhatsApp number" id="whatsapp-input"/>
+        <a class="wa-btn" id="share-on-whatsapp-button" data-fullurl="#" href="javascript:;">Share <i class="fab fa-whatsapp"></i></a>
+      </div>
+    </div>
+    <div class="two-btns">
+      <a class="two-btn" id="save-contact-btn">Save Contact <i class="fa fa-download"></i></a>
+      <a class="two-btn" id="share-button" data-title="vCard" data-fullurl="#">Share <i class="fa fa-share"></i></a>
+    </div>
+    <div class="socials">
+      <a id="social-facebook" href="#" target="_blank"><i class="fab fa-facebook-f"></i></a>
+      <a id="social-instagram" href="#" target="_blank"><i class="fab fa-instagram"></i></a>
+      <a id="social-youtube" href="#" target="_blank"><i class="fab fa-youtube"></i></a>
+      <a id="social-twitter" href="#" target="_blank"><i class="fab fa-twitter"></i></a>
+      <a id="social-linkedin" href="#" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+      <a id="social-googleplus" href="#" target="_blank"><i class="fab fa-google"></i></a>
+    </div>
+  </section>
+
+  <section id="about" class="sec-card">
+    <div class="sec-head"><div class="sec-icon"><i class="fas fa-info-circle"></i></div><div><div class="sec-title" id="about-heading">About Us</div><div class="sec-subtitle">Our Story</div></div></div>
+    <p class="sec-text" id="about-para1"></p><br/><p class="sec-text" id="about-para2"></p>
+  </section>
+
+  <section id="service" class="sec-card">
+    <div class="sec-head"><div class="sec-icon"><i class="fas fa-tools"></i></div><div><div class="sec-title" id="service-heading">Services</div><div class="sec-subtitle">What We Do</div></div></div>
+    <div class="srv-grid" id="services-container"></div>
+  </section>
+
+  <section id="gallery" class="sec-card">
+    <div class="sec-head"><div class="sec-icon"><i class="far fa-image"></i></div><div><div class="sec-title" id="gallery-heading">Gallery</div><div class="sec-subtitle">Our Work</div></div></div>
+    <div class="gal-grid" id="gallery-container"></div>
+  </section>
+
+  <section id="video" class="sec-card">
+    <div class="sec-head"><div class="sec-icon"><i class="fab fa-youtube"></i></div><div><div class="sec-title" id="video-heading">Videos</div><div class="sec-subtitle">Watch Us Work</div></div></div>
+    <div id="videos-container"></div>
+  </section>
+
+  <section id="payment" class="sec-card">
+    <div class="sec-head"><div class="sec-icon"><i class="fas fa-wallet"></i></div><div><div class="sec-title" id="payment-heading">Payment</div><div class="sec-subtitle">We Accept</div></div></div>
+    <div class="pay-grid" id="payment-container"></div>
+  </section>
+
+  <section id="products" class="sec-card" style="display:none;">
+    <div class="sec-head"><div class="sec-icon"><i class="fas fa-shopping-cart"></i></div><div><div class="sec-title" id="products-heading">Products</div><div class="sec-subtitle">Shop Now</div></div></div>
+    <div class="prod-grid" id="products-container"></div>
+  </section>
+
+  <div id="custom-sections-area"></div>
+
+  <section id="enquiry" class="sec-card">
+    <div class="sec-head"><div class="sec-icon"><i class="fas fa-headset"></i></div><div><div class="sec-title">Get a Quote</div><div class="sec-subtitle">Free Consultation</div></div></div>
+    <form id="enquiry-form" class="enq-form">
+      <div class="enq-row">
+        <input type="text" placeholder="Full Name" id="enq-fname" required/>
+        <input type="email" placeholder="Email" id="enq-email" required/>
+        <input type="text" placeholder="Phone" id="enq-phone" required/>
+        <input type="text" placeholder="Service Needed" id="enq-subject" required/>
+      </div>
+      <textarea placeholder="Describe your requirement..." id="enq-msg" required></textarea>
+      <button class="enq-btn" type="submit">Request Quote <i class="fas fa-paper-plane"></i></button>
+    </form>
+  </section>
+</div>
+
+<script src="assets/js/jquery.min.js"></script>
+<script src="assets/js/bootstrap.min.js"></script>
+<script src="assets/js/custom.js"></script>
+<script src="assets/js/admin-bridge.js"></script>
+<script>
+var d=window._vcardData;var esc=window._vcardHelpers.esc;
+if(d){
+  var sc=document.getElementById('services-container');if(sc&&d.services)sc.innerHTML=d.services.map(function(i){return '<div class="srv-item"><img src="'+(i.img||'assets/images/product.png')+'"/><div class="srv-title">'+esc(i.title)+'</div></div>';}).join('');
+  var gc=document.getElementById('gallery-container');if(gc&&d.gallery)gc.innerHTML=d.gallery.map(function(i){return '<div class="gal-item"><img src="'+(i.img||'assets/images/gallery.png')+'"/></div>';}).join('');
+  var pc=document.getElementById('payment-container');if(pc&&d.payment)pc.innerHTML=d.payment.map(function(i){return '<div class="pay-item"><img src="'+(i.img||'assets/images/payment.png')+'"/><div class="pay-title">'+esc(i.title)+'</div></div>';}).join('');
+  if(d.showProducts&&d.products&&d.products.length){var prc=document.getElementById('products-container');if(prc)prc.innerHTML=d.products.map(function(i){return '<div class="prod-card">'+(i.img?'<img src="'+i.img+'"/>':'')+'<div class="prod-body"><div class="prod-name">'+esc(i.name)+'</div>'+(i.price?'<div class="prod-price">'+esc(i.price)+'</div>':'')+(i.link?'<a href="'+esc(i.link)+'" target="_blank" class="prod-btn">'+esc(i.btn||'Buy Now')+'</a>':'')+'</div></div>';}).join('');}
+  ['about','service','gallery','video','payment','products'].forEach(function(k){var el=document.getElementById(k+'-heading');if(el){var m={about:'aboutTitle',service:'serviceTitle',gallery:'galleryTitle',video:'videoTitle',payment:'paymentTitle',products:'productsTitle'};if(d[m[k]])el.textContent=d[m[k]];}});
+}
+window.addEventListener('scroll',function(){
+  var secs=['home','about','service','gallery','video','payment','products','enquiry'];
+  var links=document.querySelectorAll('.top-nav a');
+  secs.forEach(function(id,i){var el=document.getElementById(id);if(!el||!links[i])return;var r=el.getBoundingClientRect();if(r.top<=60&&r.bottom>60){links.forEach(function(l){l.classList.remove('active');});links[i].classList.add('active');}});
+});
+</script>
+</body>
+</html>

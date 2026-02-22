@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"/>
+<meta name="description" id="meta-description" content="Professional Business Card"/>
+<title id="page-title-tag">Professional vCard</title>
+<link rel="stylesheet" href="assets/css/bootstrap.min.css"/>
+<link rel="stylesheet" href="assets/css/fontawesome.css"/>
+<link rel="stylesheet" href="assets/css/animate.min.css"/>
+<style id="admin-theme-style"></style>
+<style>
+:root{--gold:#c9a84c;--gold2:#f0d080;--dark:#0a0a0f;--dark2:#12121a;--dark3:#1a1a28;--surface:#1e1e2e;--border:rgba(201,168,76,0.25);--text:#f0ede8;--text2:#b8b0a0;--radius:12px;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Georgia',serif;background:var(--dark);color:var(--text);min-height:100vh;overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse at 20% 0%,rgba(201,168,76,0.06) 0%,transparent 60%),radial-gradient(ellipse at 80% 100%,rgba(201,168,76,0.04) 0%,transparent 60%);pointer-events:none;z-index:0;}
+
+/* SIDEBAR NAV */
+.sidebar-nav{position:fixed;right:0;top:50%;transform:translateY(-50%);z-index:100;display:flex;flex-direction:column;gap:4px;padding:12px 8px;background:rgba(10,10,15,0.9);border:1px solid var(--border);border-right:none;border-radius:12px 0 0 12px;backdrop-filter:blur(12px);}
+.sidebar-nav a{display:flex;flex-direction:column;align-items:center;gap:3px;padding:10px 8px;color:var(--text2);text-decoration:none;font-size:9px;font-family:sans-serif;letter-spacing:.5px;text-transform:uppercase;border-radius:8px;transition:all .2s;}
+.sidebar-nav a:hover,.sidebar-nav a.active{color:var(--gold);background:rgba(201,168,76,0.1);}
+.sidebar-nav a i{font-size:16px;}
+
+/* WRAPPER */
+.wrapper{max-width:480px;margin:0 auto;padding:20px 16px 60px;position:relative;z-index:1;}
+
+/* GOLD DIVIDER */
+.gold-divider{height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin:20px 0;}
+
+/* HOME CARD */
+.home-card{background:var(--surface);border:1px solid var(--border);border-radius:20px;overflow:hidden;margin-bottom:16px;position:relative;}
+.home-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,transparent,var(--gold),transparent);}
+.home-banner{height:120px;background:linear-gradient(135deg,#0a0a0f 0%,#1a1428 50%,#0f0d1a 100%);position:relative;display:flex;align-items:center;justify-content:center;}
+.home-banner::after{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23c9a84c' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");}
+.profile-wrap{position:relative;display:flex;justify-content:center;margin-top:-50px;margin-bottom:12px;}
+.profile-ring{width:100px;height:100px;border-radius:50%;padding:3px;background:linear-gradient(135deg,var(--gold),var(--gold2),var(--gold));display:flex;align-items:center;justify-content:center;box-shadow:0 8px 32px rgba(201,168,76,0.3);}
+.profile-ring img{width:94px;height:94px;border-radius:50%;object-fit:cover;border:3px solid var(--dark);}
+.home-body{padding:0 24px 24px;text-align:center;}
+.biz-name{font-size:22px;font-weight:700;color:var(--gold);letter-spacing:.5px;margin-bottom:4px;}
+.owner-name{font-size:14px;color:var(--text2);font-family:sans-serif;margin-bottom:6px;}
+.person-badge{display:inline-block;background:rgba(201,168,76,0.12);color:var(--gold);border:1px solid var(--border);border-radius:20px;padding:3px 14px;font-size:11px;font-family:sans-serif;letter-spacing:.8px;text-transform:uppercase;margin-bottom:16px;}
+.action-btns{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px;}
+.action-btn{display:flex;align-items:center;justify-content:center;gap:6px;padding:10px 12px;border-radius:10px;text-decoration:none;font-size:13px;font-family:sans-serif;font-weight:600;transition:all .2s;border:1px solid var(--border);}
+.action-btn.gold{background:linear-gradient(135deg,var(--gold),var(--gold2));color:#0a0a0f;border-color:transparent;}
+.action-btn.ghost{background:rgba(201,168,76,0.08);color:var(--gold);}
+.action-btn:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(201,168,76,0.2);}
+
+/* CONTACT LIST */
+.contact-list{list-style:none;padding:0;margin:0;}
+.contact-list li{padding:12px 0;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;}
+.contact-list li:last-child{border-bottom:none;}
+.contact-icon{width:36px;height:36px;border-radius:8px;background:rgba(201,168,76,0.1);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:14px;flex-shrink:0;}
+.contact-list a{color:var(--text2);text-decoration:none;font-size:13px;font-family:sans-serif;transition:color .2s;}
+.contact-list a:hover{color:var(--gold);}
+
+/* WHATSAPP */
+.wa-box{background:var(--dark3);border:1px solid var(--border);border-radius:12px;padding:16px;margin:16px 0;}
+.wa-box input{width:100%;background:var(--dark);border:1px solid var(--border);border-radius:8px;padding:10px 14px;color:var(--text);font-family:sans-serif;font-size:13px;outline:none;margin-bottom:10px;}
+.wa-btn{display:block;width:100%;padding:10px;background:linear-gradient(135deg,#25d366,#128c7e);color:#fff;border-radius:8px;font-weight:600;font-size:13px;font-family:sans-serif;text-align:center;text-decoration:none;cursor:pointer;}
+
+/* SAVE/SHARE BTNS */
+.two-btns{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0;}
+.two-btn{display:flex;align-items:center;justify-content:center;gap:6px;padding:11px;background:linear-gradient(135deg,var(--gold),var(--gold2));color:#0a0a0f;border-radius:10px;font-size:13px;font-family:sans-serif;font-weight:700;cursor:pointer;text-decoration:none;}
+
+/* SOCIAL */
+.socials{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:16px;}
+.socials a{width:38px;height:38px;border-radius:50%;background:rgba(201,168,76,0.1);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:16px;text-decoration:none;transition:all .2s;}
+.socials a:hover{background:var(--gold);color:var(--dark);}
+
+/* SECTION CARDS */
+.sec-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:24px;margin-bottom:16px;position:relative;overflow:hidden;}
+.sec-card::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%;background:linear-gradient(180deg,var(--gold),transparent);}
+.sec-title{font-size:18px;color:var(--gold);margin-bottom:4px;padding-left:12px;}
+.sec-subtitle{font-size:12px;color:var(--text2);font-family:sans-serif;letter-spacing:.8px;text-transform:uppercase;padding-left:12px;margin-bottom:16px;}
+.sec-text{color:var(--text2);font-size:14px;font-family:sans-serif;line-height:1.8;padding-left:12px;}
+
+/* SERVICE GRID */
+.srv-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding-left:12px;}
+.srv-item{background:var(--dark3);border:1px solid var(--border);border-radius:10px;overflow:hidden;transition:transform .2s;}
+.srv-item:hover{transform:translateY(-2px);}
+.srv-item img{width:100%;height:100px;object-fit:cover;}
+.srv-item-title{padding:8px 10px;font-size:13px;font-family:sans-serif;color:var(--text);text-align:center;}
+
+/* GALLERY */
+.gal-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;padding-left:12px;}
+.gal-item{border-radius:8px;overflow:hidden;cursor:pointer;}
+.gal-item img{width:100%;height:90px;object-fit:cover;transition:transform .3s;}
+.gal-item:hover img{transform:scale(1.05);}
+
+/* VIDEO */
+.vid-wrap{padding-left:12px;}
+.vid-wrap iframe{width:100%;height:200px;border-radius:10px;border:none;}
+
+/* PAYMENT */
+.pay-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;padding-left:12px;}
+.pay-item{background:var(--dark3);border:1px solid var(--border);border-radius:8px;padding:10px;text-align:center;}
+.pay-item img{width:100%;height:50px;object-fit:contain;}
+.pay-item-title{font-size:11px;font-family:sans-serif;color:var(--text2);margin-top:6px;}
+
+/* PRODUCT */
+.prod-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding-left:12px;}
+.prod-card{background:var(--dark3);border:1px solid var(--border);border-radius:10px;overflow:hidden;}
+.prod-card img{width:100%;height:120px;object-fit:cover;}
+.prod-card-body{padding:10px;}
+.prod-card-name{font-size:13px;font-family:sans-serif;font-weight:600;color:var(--text);}
+.prod-card-price{font-size:12px;color:var(--gold);font-family:sans-serif;margin:4px 0;}
+.prod-card-btn{display:block;width:100%;padding:7px;background:linear-gradient(135deg,var(--gold),var(--gold2));color:#0a0a0f;border-radius:6px;font-size:12px;font-family:sans-serif;font-weight:700;text-align:center;text-decoration:none;margin-top:8px;}
+
+/* ENQUIRY */
+.enq-form input,.enq-form textarea{width:100%;background:var(--dark3);border:1px solid var(--border);border-radius:8px;padding:10px 14px;color:var(--text);font-family:sans-serif;font-size:13px;outline:none;margin-bottom:10px;transition:border-color .2s;}
+.enq-form input:focus,.enq-form textarea:focus{border-color:var(--gold);}
+.enq-form textarea{min-height:90px;resize:vertical;}
+.enq-btn{width:100%;padding:12px;background:linear-gradient(135deg,var(--gold),var(--gold2));color:#0a0a0f;border:none;border-radius:10px;font-size:15px;font-family:sans-serif;font-weight:700;cursor:pointer;transition:opacity .2s;}
+.enq-btn:hover{opacity:.88;}
+
+/* VIEW COUNTER */
+.view-count-bar{text-align:right;font-size:12px;color:var(--text2);font-family:sans-serif;margin-bottom:12px;}
+.view-count-bar i{color:var(--gold);}
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR NAV -->
+<nav class="sidebar-nav" id="sidebar-nav">
+  <a href="#home" class="active"><i class="fas fa-home"></i>Home</a>
+  <a href="#about" id="nav-about"><i class="far fa-address-card"></i>About</a>
+  <a href="#service" id="nav-service"><i class="fas fa-briefcase"></i>Services</a>
+  <a href="#gallery" id="nav-gallery"><i class="far fa-image"></i>Gallery</a>
+  <a href="#video" id="nav-video"><i class="fab fa-youtube"></i>Video</a>
+  <a href="#payment" id="nav-payment"><i class="fas fa-wallet"></i>Pay</a>
+  <a href="#products" id="nav-products" style="display:none;"><i class="fas fa-shopping-cart"></i>Shop</a>
+  <a href="#enquiry" id="nav-enquiry"><i class="fas fa-headset"></i>Enquiry</a>
+</nav>
+
+<div class="wrapper">
+  <!-- VIEW COUNTER -->
+  <div class="view-count-bar" id="total-view"><i class="fa fa-eye"></i> Views: <span id="view-count">1,000</span></div>
+
+  <!-- HOME -->
+  <section id="home" class="home-card">
+    <div class="home-banner"></div>
+    <div class="profile-wrap">
+      <div class="profile-ring"><img id="profile-img" src="assets/images/profile.png" alt="Profile"/></div>
+    </div>
+    <div class="home-body">
+      <div class="biz-name" id="business-name">Business Name</div>
+      <div class="owner-name"><span id="owner-name-display">Owner Name</span><span id="biz-position"> - Business Position</span></div>
+      <div class="person-badge" id="person-type-display">Professional</div>
+      <div class="action-btns">
+        <a class="action-btn gold" id="btn-call" href="tel:+919876543210"><i class="fa fa-phone"></i> Call</a>
+        <a class="action-btn ghost" id="btn-email" href="mailto:demo@gmail.com"><i class="fa fa-envelope"></i> Email</a>
+        <a class="action-btn ghost" id="btn-website" href="#"><i class="fa fa-globe"></i> Website</a>
+        <a class="action-btn ghost" id="btn-direction" href="#"><i class="fa fa-map-marker-alt"></i> Direction</a>
+      </div>
+      <div class="gold-divider"></div>
+      <ul class="contact-list" style="text-align:left;">
+        <li><div class="contact-icon"><i class="fa fa-phone"></i></div><a id="detail-phone" href="#">+91 98765 43210</a></li>
+        <li><div class="contact-icon"><i class="fa fa-envelope"></i></div><a id="detail-email" href="#">demo@gmail.com</a></li>
+        <li><div class="contact-icon"><i class="fa fa-fax"></i></div><a id="detail-fax" href="#">022-12345678</a></li>
+        <li><div class="contact-icon"><i class="fa fa-map-marker-alt"></i></div><a id="detail-address" href="#">Mumbai, Maharashtra</a></li>
+      </ul>
+      <div class="gold-divider"></div>
+      <div class="wa-box">
+        <input maxlength="12" placeholder="Enter number with country code" type="tel" id="whatsapp-input"/>
+        <a class="wa-btn" id="share-on-whatsapp-button" data-fullurl="#" href="javascript:;" target="_blank">Share on WhatsApp <i class="fab fa-whatsapp"></i></a>
+      </div>
+      <div class="two-btns">
+        <a class="two-btn" id="save-contact-btn">Save Contact <i class="fa fa-download"></i></a>
+        <a class="two-btn" id="share-button" data-title="vCard" data-fullurl="#">Share <i class="fa fa-share"></i></a>
+      </div>
+      <div class="gold-divider"></div>
+      <div class="socials">
+        <a id="social-facebook" href="#" target="_blank"><i class="fab fa-facebook-f"></i></a>
+        <a id="social-instagram" href="#" target="_blank"><i class="fab fa-instagram"></i></a>
+        <a id="social-youtube" href="#" target="_blank"><i class="fab fa-youtube"></i></a>
+        <a id="social-twitter" href="#" target="_blank"><i class="fab fa-twitter"></i></a>
+        <a id="social-linkedin" href="#" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+        <a id="social-googleplus" href="#" target="_blank"><i class="fab fa-google"></i></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about" class="sec-card">
+    <h2 class="sec-title" id="about-heading">About Us <span style="color:var(--text2);font-size:14px;">Know More</span></h2>
+    <div class="sec-subtitle">Our Story</div>
+    <p class="sec-text" id="about-para1"></p><br/>
+    <p class="sec-text" id="about-para2"></p>
+  </section>
+
+  <!-- SERVICES -->
+  <section id="service" class="sec-card">
+    <h2 class="sec-title" id="service-heading">Services <span style="color:var(--text2);font-size:14px;">What We Offer</span></h2>
+    <div class="sec-subtitle">Our Expertise</div>
+    <div class="srv-grid" id="services-container"></div>
+  </section>
+
+  <!-- GALLERY -->
+  <section id="gallery" class="sec-card">
+    <h2 class="sec-title" id="gallery-heading">Gallery <span style="color:var(--text2);font-size:14px;">Our Work</span></h2>
+    <div class="sec-subtitle">Photo Gallery</div>
+    <div class="gal-grid" id="gallery-container"></div>
+  </section>
+
+  <!-- VIDEOS -->
+  <section id="video" class="sec-card">
+    <h2 class="sec-title" id="video-heading">Videos <span style="color:var(--text2);font-size:14px;">Watch Us</span></h2>
+    <div class="sec-subtitle">Latest Videos</div>
+    <div class="vid-wrap" id="videos-container"></div>
+  </section>
+
+  <!-- PAYMENT -->
+  <section id="payment" class="sec-card">
+    <h2 class="sec-title" id="payment-heading">Payment <span style="color:var(--text2);font-size:14px;">We Accept</span></h2>
+    <div class="sec-subtitle">Payment Options</div>
+    <div class="pay-grid" id="payment-container"></div>
+  </section>
+
+  <!-- PRODUCTS -->
+  <section id="products" class="sec-card" style="display:none;">
+    <h2 class="sec-title" id="products-heading">Products <span style="color:var(--text2);font-size:14px;">Shop Now</span></h2>
+    <div class="sec-subtitle">Our Products</div>
+    <div class="prod-grid" id="products-container"></div>
+  </section>
+
+  <!-- CUSTOM SECTIONS -->
+  <div id="custom-sections-area"></div>
+
+  <!-- ENQUIRY -->
+  <section id="enquiry" class="sec-card">
+    <h2 class="sec-title">Enquiry <span style="color:var(--text2);font-size:14px;">Contact</span></h2>
+    <div class="sec-subtitle">Get in Touch</div>
+    <form id="enquiry-form" class="enq-form" style="padding-left:12px;">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+        <input type="text" placeholder="Full Name" id="enq-fname" required/>
+        <input type="email" placeholder="Email" id="enq-email" required/>
+        <input type="text" placeholder="Phone" id="enq-phone" required/>
+        <input type="text" placeholder="Subject" id="enq-subject" required/>
+      </div>
+      <textarea placeholder="Your Message" id="enq-msg" required></textarea>
+      <button class="enq-btn" type="submit">Send Enquiry <i class="fas fa-paper-plane"></i></button>
+    </form>
+  </section>
+</div>
+
+<script src="assets/js/jquery.min.js"></script>
+<script src="assets/js/bootstrap.min.js"></script>
+<script src="assets/js/custom.js"></script>
+<script src="assets/js/admin-bridge.js"></script>
+<script>
+// Custom rendering overrides for this template
+var d = window._vcardData;
+var esc = window._vcardHelpers.esc;
+if(d){
+  // Services
+  var sc=document.getElementById('services-container');
+  if(sc&&d.services&&d.services.length){
+    sc.innerHTML=d.services.map(function(item){
+      var img=item.img||'assets/images/product.png';
+      return '<div class="srv-item"><img src="'+img+'" alt="'+esc(item.title)+'" /><div class="srv-item-title">'+esc(item.title)+'</div></div>';
+    }).join('');
+  }
+  // Gallery
+  var gc=document.getElementById('gallery-container');
+  if(gc&&d.gallery&&d.gallery.length){
+    gc.innerHTML=d.gallery.map(function(item){
+      var img=item.img||'assets/images/gallery.png';
+      return '<div class="gal-item"><img src="'+img+'" alt="" /></div>';
+    }).join('');
+  }
+  // Payment
+  var pc=document.getElementById('payment-container');
+  if(pc&&d.payment&&d.payment.length){
+    pc.innerHTML=d.payment.map(function(item){
+      var img=item.img||'assets/images/payment.png';
+      return '<div class="pay-item"><img src="'+img+'" alt=""/><div class="pay-item-title">'+esc(item.title)+'</div></div>';
+    }).join('');
+  }
+  // Products
+  if(d.showProducts&&d.products&&d.products.length){
+    var prc=document.getElementById('products-container');
+    if(prc){
+      prc.innerHTML=d.products.map(function(item){
+        var img=item.img||'';
+        return '<div class="prod-card">'+
+          (img?'<img src="'+img+'" alt="'+esc(item.name)+'" />':'<div style="height:120px;background:#1a1a28;display:flex;align-items:center;justify-content:center;font-size:36px;">🛒</div>')+
+          '<div class="prod-card-body"><div class="prod-card-name">'+esc(item.name)+'</div>'+
+          (item.price?'<div class="prod-card-price">'+esc(item.price)+'</div>':'')+
+          (item.link?'<a href="'+esc(item.link)+'" target="_blank" class="prod-card-btn">'+esc(item.btn||'Buy Now')+'</a>':'')+
+          '</div></div>';
+      }).join('');
+    }
+  }
+  // About headings styled for this template
+  var ah=document.getElementById('about-heading');
+  if(ah)ah.innerHTML=esc(d.aboutTitle)+' <span style="color:var(--text2);font-size:14px;">'+esc(d.aboutSubtitle)+'</span>';
+  var sh=document.getElementById('service-heading');
+  if(sh)sh.innerHTML=esc(d.serviceTitle)+' <span style="color:var(--text2);font-size:14px;">'+esc(d.serviceSubtitle)+'</span>';
+  var gh=document.getElementById('gallery-heading');
+  if(gh)gh.innerHTML=esc(d.galleryTitle)+' <span style="color:var(--text2);font-size:14px;">'+esc(d.gallerySubtitle)+'</span>';
+  var vh=document.getElementById('video-heading');
+  if(vh)vh.innerHTML=esc(d.videoTitle)+' <span style="color:var(--text2);font-size:14px;">'+esc(d.videoSubtitle)+'</span>';
+  var pyh=document.getElementById('payment-heading');
+  if(pyh)pyh.innerHTML=esc(d.paymentTitle)+' <span style="color:var(--text2);font-size:14px;">'+esc(d.paymentSubtitle)+'</span>';
+  var prh=document.getElementById('products-heading');
+  if(prh)prh.innerHTML=esc(d.productsTitle)+' <span style="color:var(--text2);font-size:14px;">'+esc(d.productsSubtitle)+'</span>';
+}
+// Nav active on scroll
+window.addEventListener('scroll',function(){
+  var secs=['home','about','service','gallery','video','payment','products','enquiry'];
+  var links=document.querySelectorAll('.sidebar-nav a');
+  secs.forEach(function(id,i){
+    var el=document.getElementById(id);
+    if(!el)return;
+    var r=el.getBoundingClientRect();
+    if(r.top<=100&&r.bottom>100&&links[i]){
+      links.forEach(function(l){l.classList.remove('active');});
+      links[i].classList.add('active');
+    }
+  });
+});
+</script>
+</body>
+</html>
