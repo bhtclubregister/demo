@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1">
+<meta name="description" id="meta-description" content="Trusted insurance agent protecting what matters most.">
+<title id="page-title-tag">Shield Insurance | Your Trusted Protection Partner</title>
+<link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon-32x32.png">
+<link rel="stylesheet" href="assets/css/fontawesome.css">
+<style id="admin-theme-style"></style>
+<style>
+:root{
+  --navy:#0d1b2e;--navy2:#142238;--navy3:#1e3354;
+  --gold:#c9a84c;--gold2:#e2c97e;--golddim:rgba(201,168,76,.15);
+  --cream:#f5f0e8;--cream2:#faf7f2;
+  --text:#0d1b2e;--textm:#3a4a5c;--texts:#7a8898;--white:#fff;
+  --rad:14px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:Georgia,'Times New Roman',serif;background:var(--cream);color:var(--text);min-height:100vh;overflow-x:hidden}
+::-webkit-scrollbar{width:4px}::-webkit-scrollbar-thumb{background:var(--gold);border-radius:4px}
+
+/* SIDE NAV */
+.snav{position:fixed;right:14px;top:50%;transform:translateY(-50%);z-index:200;display:flex;flex-direction:column;gap:8px}
+.snav a{width:36px;height:36px;border-radius:50%;background:#fff;color:#7a8898;box-shadow:0 2px 10px rgba(13,27,46,.12);display:flex;align-items:center;justify-content:center;font-size:13px;text-decoration:none;transition:all .25s;position:relative}
+.snav a::before{content:attr(data-tip);position:absolute;right:44px;background:var(--navy);color:var(--gold);font-family:monospace;font-size:10px;padding:4px 9px;border-radius:5px;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .2s}
+.snav a:hover::before{opacity:1}
+.snav a.active,.snav a:hover{background:var(--gold);color:var(--navy);box-shadow:0 4px 14px rgba(201,168,76,.4)}
+
+/* THEME BTN */
+.tbtn-wrap{position:fixed;top:14px;right:14px;z-index:300}
+.tbtn{width:38px;height:38px;border-radius:50%;background:#fff;border:2px solid var(--golddim);color:var(--gold);font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 10px rgba(13,27,46,.1);transition:all .25s}
+.tbtn:hover{background:var(--gold);color:var(--navy)}
+body.dark{--cream:#0b1520;--cream2:#0f1e30;--text:#e8e2d6;--textm:#a8b8c8;--texts:#5a7090;--white:#142238}
+body.dark .tbtn{background:var(--navy3)}
+
+/* HOME */
+#home{min-height:100vh;background:var(--navy);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:70px 22px 80px;position:relative;overflow:hidden}
+#home::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 50% at 20% 30%,rgba(201,168,76,.08),transparent 60%),radial-gradient(ellipse 50% 60% at 80% 70%,rgba(30,51,84,.7),transparent 70%);pointer-events:none}
+#home::after{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(201,168,76,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(201,168,76,.03) 1px,transparent 1px);background-size:48px 48px;pointer-events:none}
+
+.hi{position:relative;z-index:2;text-align:center;max-width:420px;width:100%}
+.hbadge{display:inline-flex;align-items:center;gap:8px;background:rgba(201,168,76,.12);border:1px solid rgba(201,168,76,.3);border-radius:30px;padding:6px 16px;margin-bottom:24px;font-family:monospace;font-size:11px;color:var(--gold);letter-spacing:1.2px;text-transform:uppercase}
+.bdot{width:6px;height:6px;border-radius:50%;background:var(--gold);animation:blink 2s ease-in-out infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+
+.hav{position:relative;width:120px;height:120px;margin:0 auto 20px}
+.hav img{width:120px;height:120px;border-radius:50%;object-fit:cover;border:3px solid var(--gold);display:block}
+.avring{position:absolute;inset:-8px;border-radius:50%;border:1px solid rgba(201,168,76,.35);animation:spin 12s linear infinite}
+.avring::before{content:'';position:absolute;top:-3px;left:50%;transform:translateX(-50%);width:6px;height:6px;border-radius:50%;background:var(--gold)}
+@keyframes spin{to{transform:rotate(360deg)}}
+.shico{position:absolute;bottom:-4px;right:-4px;width:32px;height:32px;background:var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;color:var(--navy);box-shadow:0 2px 10px rgba(201,168,76,.5)}
+
+.hname{font-family:Georgia,serif;font-size:32px;font-weight:700;color:#f5f0e8;line-height:1.15;margin-bottom:7px}
+.hpos{font-family:monospace;font-size:12px;color:var(--gold);letter-spacing:1.8px;text-transform:uppercase;margin-bottom:4px}
+.htype{font-size:13px;color:rgba(245,240,232,.4);margin-bottom:28px}
+
+.hactions{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:22px}
+.hb{display:flex;align-items:center;justify-content:center;gap:7px;padding:12px 13px;border-radius:10px;font-size:13px;font-weight:600;text-decoration:none;transition:all .25s;cursor:pointer;border:none;font-family:Georgia,serif}
+.hb-g{background:var(--gold);color:var(--navy);box-shadow:0 4px 18px rgba(201,168,76,.35)}
+.hb-g:hover{background:var(--gold2);transform:translateY(-1px)}
+.hb-o{background:rgba(255,255,255,.07);color:#f5f0e8;border:1px solid rgba(245,240,232,.18)}
+.hb-o:hover{border-color:var(--gold);color:var(--gold)}
+
+.gdiv{display:flex;align-items:center;gap:12px;margin:16px 0;color:rgba(201,168,76,.5);font-size:13px}
+.gdiv::before,.gdiv::after{content:'';flex:1;height:1px;background:linear-gradient(to right,transparent,rgba(201,168,76,.4),transparent)}
+
+.clist{list-style:none;display:flex;flex-direction:column;gap:10px;text-align:left;margin-bottom:16px}
+.clist li a{display:flex;align-items:center;gap:12px;text-decoration:none;color:rgba(245,240,232,.8);font-size:14px;transition:color .2s}
+.clist li a:hover{color:var(--gold)}
+.ci{width:34px;height:34px;flex-shrink:0;border-radius:8px;background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.2);display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:13px}
+
+.wabox{background:rgba(255,255,255,.05);border:1px solid rgba(245,240,232,.1);border-radius:10px;padding:11px;margin-bottom:12px;display:flex;gap:8px}
+.wabox input{flex:1;background:rgba(255,255,255,.08);border:1px solid rgba(245,240,232,.15);border-radius:8px;padding:9px 11px;color:#f5f0e8;font-family:monospace;font-size:13px;outline:none}
+.wabox input::placeholder{color:rgba(245,240,232,.3)}
+.wabox input:focus{border-color:var(--gold)}
+.wabtn{background:#25d366;color:#fff;border:none;border-radius:8px;padding:9px 12px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;display:flex;align-items:center;gap:5px;text-decoration:none}
+.wabtn:hover{background:#1fb95c}
+
+.ssrow{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:16px}
+.svb,.shb{display:flex;align-items:center;justify-content:center;gap:7px;padding:11px;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;text-decoration:none;transition:all .22s;border:none;font-family:Georgia,serif}
+.svb{background:rgba(201,168,76,.15);border:1px solid rgba(201,168,76,.3);color:var(--gold)}
+.svb:hover{background:var(--gold);color:var(--navy)}
+.shb{background:rgba(255,255,255,.08);border:1px solid rgba(245,240,232,.15);color:#f5f0e8}
+.shb:hover{border-color:var(--gold);color:var(--gold)}
+
+.socrow{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+.socrow a{width:38px;height:38px;border-radius:9px;background:rgba(255,255,255,.06);border:1px solid rgba(245,240,232,.1);color:rgba(245,240,232,.6);display:flex;align-items:center;justify-content:center;font-size:15px;text-decoration:none;transition:all .22s}
+.socrow a:hover{background:var(--gold);color:var(--navy);transform:translateY(-2px)}
+
+.vctr{position:absolute;top:16px;left:16px;z-index:10;display:flex;align-items:center;gap:6px;background:rgba(13,27,46,.75);border:1px solid rgba(201,168,76,.25);border-radius:20px;padding:5px 13px;font-family:monospace;font-size:11px;color:var(--gold)}
+
+/* TRUST BAR */
+.tbar{background:var(--gold);padding:18px 22px;display:flex;justify-content:space-around;flex-wrap:wrap;gap:12px}
+.tstat{text-align:center;flex:1;min-width:65px}
+.tstat .num{font-family:Georgia,serif;font-size:26px;font-weight:700;color:var(--navy);line-height:1}
+.tstat .lbl{font-family:monospace;font-size:10px;font-weight:600;color:rgba(13,27,46,.65);text-transform:uppercase;letter-spacing:.7px;margin-top:3px}
+
+/* SECTIONS */
+.isec{padding:52px 22px;background:var(--cream)}
+.isec.alt{background:var(--cream2)}
+.ey{display:flex;align-items:center;gap:9px;margin-bottom:6px}
+.eln{width:26px;height:2px;background:var(--gold);border-radius:2px}
+.etxt{font-family:monospace;font-size:11px;color:var(--gold);text-transform:uppercase;letter-spacing:1.5px}
+.stitle{font-family:Georgia,serif;font-size:28px;font-weight:700;color:var(--text);line-height:1.15;margin-bottom:4px}
+.stitle span{color:var(--gold);font-style:italic}
+.sdiv{width:46px;height:3px;background:linear-gradient(to right,var(--gold),transparent);border-radius:3px;margin-bottom:26px}
+
+/* ABOUT */
+.abody p{color:var(--textm);line-height:1.85;font-size:15px;margin-bottom:12px}
+.pills{display:flex;flex-wrap:wrap;gap:7px;margin-top:4px}
+.pill{background:var(--golddim);border:1px solid rgba(201,168,76,.25);border-radius:20px;padding:5px 13px;font-family:monospace;font-size:11px;color:var(--gold)}
+
+/* SERVICES */
+.pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px}
+.pcard{background:var(--white);border:1px solid rgba(13,27,46,.08);border-radius:var(--rad);overflow:hidden;cursor:pointer;transition:all .25s;position:relative}
+.pcard::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;background:var(--gold);transform:scaleX(0);transition:transform .25s}
+.pcard:hover{box-shadow:0 4px 22px rgba(13,27,46,.12);transform:translateY(-3px)}
+.pcard:hover::after{transform:scaleX(1)}
+.pimg{width:100%;height:95px;object-fit:cover;display:block}
+.pname{font-size:13px;font-weight:600;color:var(--text);padding:9px 11px;text-align:center}
+
+/* GALLERY */
+.ggrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.gitem{border-radius:9px;overflow:hidden;aspect-ratio:1;cursor:pointer;position:relative}
+.gitem img{width:100%;height:100%;object-fit:cover;transition:transform .4s;display:block}
+.gitem:hover img{transform:scale(1.09)}
+.gov{position:absolute;inset:0;background:rgba(13,27,46,.4);display:flex;align-items:center;justify-content:center;font-size:20px;opacity:0;transition:opacity .25s}
+.gitem:hover .gov{opacity:1}
+
+/* VIDEOS */
+.vstack{display:flex;flex-direction:column;gap:14px}
+.vwrap{border-radius:var(--rad);overflow:hidden;background:var(--navy)}
+.vlbl{background:var(--navy);color:var(--gold);padding:8px 14px;font-family:monospace;font-size:12px;letter-spacing:.4px}
+.vwrap iframe,.vwrap video{width:100%;aspect-ratio:16/9;display:block;border:none}
+
+/* PAYMENT */
+.paygrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(95px,1fr));gap:10px}
+.paycard{background:var(--white);border:1px solid rgba(13,27,46,.08);border-radius:10px;padding:12px 9px;text-align:center;transition:all .22s;cursor:pointer}
+.paycard:hover{border-color:var(--gold);box-shadow:0 4px 14px rgba(201,168,76,.15)}
+.paycard img{width:100%;height:52px;object-fit:contain;border-radius:5px;margin-bottom:6px;display:block}
+.pn{font-family:monospace;font-size:11px;font-weight:600;color:var(--textm)}
+
+/* PRODUCTS */
+.prodgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px}
+.prodc{background:var(--white);border:1px solid rgba(13,27,46,.07);border-radius:var(--rad);overflow:hidden;transition:all .25s}
+.prodc:hover{box-shadow:0 4px 22px rgba(13,27,46,.12);transform:translateY(-2px)}
+.prodimgw{position:relative}
+.prodimgw img{width:100%;height:125px;object-fit:cover;display:block}
+.prodprice{position:absolute;top:8px;right:8px;background:var(--gold);color:var(--navy);border-radius:20px;padding:3px 9px;font-size:11px;font-weight:700;font-family:monospace}
+.prodbody{padding:11px}
+.prodname{font-size:14px;font-weight:600;color:var(--text);margin-bottom:4px}
+.proddesc{font-size:12px;color:var(--texts);line-height:1.5;margin-bottom:8px}
+.prodbuy{display:inline-flex;align-items:center;gap:5px;background:var(--navy);color:var(--gold);border-radius:7px;padding:7px 12px;font-size:12px;font-weight:700;text-decoration:none;font-family:monospace;transition:all .22s}
+.prodbuy:hover{background:var(--gold);color:var(--navy)}
+
+/* CUSTOM */
+.cblock{padding:46px 22px;background:var(--cream2)}
+.cimg{width:100%;border-radius:var(--rad);margin-bottom:14px}
+.ctxt{color:var(--textm);line-height:1.85;white-space:pre-wrap;font-size:15px}
+.ccta{display:inline-flex;align-items:center;gap:7px;margin-top:14px;background:var(--gold);color:var(--navy);border-radius:8px;padding:10px 18px;font-weight:700;font-size:13px;text-decoration:none;transition:all .22s;font-family:Georgia,serif}
+.ccta:hover{background:var(--navy);color:var(--gold)}
+
+/* ENQUIRY */
+#enquiry{background:var(--navy);padding:52px 22px}
+#enquiry .stitle{color:#f5f0e8}
+.ecard{background:rgba(255,255,255,.04);border:1px solid rgba(201,168,76,.15);border-radius:14px;padding:24px 16px;margin-top:6px}
+.egrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+.efield{display:flex;flex-direction:column;gap:5px}
+.efield label{font-family:monospace;font-size:10px;color:rgba(201,168,76,.7);text-transform:uppercase;letter-spacing:1px}
+.efield input,.efield textarea{background:rgba(255,255,255,.06);border:1px solid rgba(245,240,232,.1);border-radius:8px;padding:11px 12px;color:#f5f0e8;font-family:Georgia,serif;font-size:14px;outline:none;transition:border-color .2s;resize:vertical;width:100%}
+.efield input::placeholder,.efield textarea::placeholder{color:rgba(245,240,232,.25)}
+.efield input:focus,.efield textarea:focus{border-color:var(--gold)}
+.efield textarea{min-height:95px}
+.efull{grid-column:1/-1}
+.esub{width:100%;background:var(--gold);color:var(--navy);border:none;border-radius:10px;padding:14px;font-family:Georgia,serif;font-size:17px;font-weight:700;cursor:pointer;transition:all .25s;display:flex;align-items:center;justify-content:center;gap:8px}
+.esub:hover{background:var(--gold2);transform:translateY(-1px);box-shadow:0 6px 22px rgba(201,168,76,.4)}
+
+/* FOOTER */
+footer{background:var(--navy);border-top:1px solid rgba(201,168,76,.12);padding:16px 22px;text-align:center}
+footer p{font-family:monospace;font-size:11px;color:rgba(245,240,232,.3);letter-spacing:.4px}
+
+/* LIGHTBOX */
+.lbov{display:none;position:fixed;inset:0;background:rgba(13,27,46,.93);z-index:9000;align-items:center;justify-content:center}
+.lbov.open{display:flex}
+.lbov img{max-width:90vw;max-height:85vh;border-radius:10px;border:2px solid rgba(201,168,76,.3)}
+.lbclose{position:absolute;top:18px;right:18px;width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.1);border:1px solid rgba(201,168,76,.3);color:#f5f0e8;font-size:19px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s}
+.lbclose:hover{background:var(--gold);color:var(--navy)}
+
+/* TOAST */
+.tst{position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--navy);border:1px solid var(--gold);color:var(--gold);border-radius:10px;padding:12px 20px;font-size:14px;font-weight:600;display:flex;align-items:center;gap:8px;z-index:9999;opacity:0;transition:all .35s;white-space:nowrap;pointer-events:none}
+.tst.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* ANIMATE */
+.fu{opacity:0;transform:translateY(24px);transition:opacity .6s,transform .6s}
+.fu.v{opacity:1;transform:translateY(0)}
+
+@media(max-width:480px){
+  .hname{font-size:26px}
+  .hactions,.ssrow,.egrid{grid-template-columns:1fr}
+  .ggrid{grid-template-columns:repeat(2,1fr)}
+  .snav{display:none}
+}
+</style>
+</head>
+<body>
+
+<div class="lbov" id="lb" onclick="closeLB()">
+  <button class="lbclose" onclick="closeLB()">✕</button>
+  <img id="lb-img" src="" alt="" onclick="event.stopPropagation()">
+</div>
+
+<div class="tst" id="tst"></div>
+
+<nav class="snav" id="ins-nav">
+  <a href="#home"     data-tip="Home"     data-s="home"    class="active"><i class="fas fa-home"></i></a>
+  <a href="#about"    data-tip="About"    data-s="about"   id="nav-about"><i class="fas fa-user-shield"></i></a>
+  <a href="#service"  data-tip="Services" data-s="service" id="nav-service"><i class="fas fa-shield-alt"></i></a>
+  <a href="#gallery"  data-tip="Gallery"  data-s="gallery" id="nav-gallery"><i class="far fa-image"></i></a>
+  <a href="#video"    data-tip="Videos"   data-s="video"   id="nav-video"><i class="fab fa-youtube"></i></a>
+  <a href="#payment"  data-tip="Payment"  data-s="payment" id="nav-payment"><i class="fas fa-wallet"></i></a>
+  <a href="#products" data-tip="Products" data-s="products" id="nav-products" style="display:none"><i class="fas fa-shopping-cart"></i></a>
+  <a href="#enquiry"  data-tip="Contact"  data-s="enquiry" id="nav-enquiry"><i class="fas fa-headset"></i></a>
+</nav>
+
+<div class="tbtn-wrap" id="theme-changer-wrap">
+  <button class="tbtn" id="theme-btn">🌙</button>
+</div>
+
+<section id="home">
+  <div class="vctr" id="total-view">
+    <i class="fa fa-eye"></i>
+    <span>Views: <b id="view-count">2,100</b></span>
+  </div>
+  <div class="hi">
+    <div class="hbadge"><span class="bdot"></span>Certified Insurance Professional</div>
+    <div class="hav">
+      <div class="avring"></div>
+      <img id="profile-img" src="assets/images/profile.png" alt="Agent">
+      <div class="shico">🛡️</div>
+    </div>
+    <h1 class="hname" id="business-name">Business Name</h1>
+    <p class="hpos" id="biz-position">Insurance Advisor</p>
+    <p class="htype" id="person-type-display"></p>
+    <div class="hactions">
+      <a class="hb hb-g" id="btn-call" href="tel:"><i class="fa fa-phone"></i> Call Now</a>
+      <a class="hb hb-o" id="btn-email" href="mailto:"><i class="fa fa-envelope"></i> Email</a>
+      <a class="hb hb-o" id="btn-website" href="#" target="_blank"><i class="fa fa-globe"></i> Website</a>
+      <a class="hb hb-o" id="btn-direction" href="#" target="_blank"><i class="fa fa-map-marker-alt"></i> Directions</a>
+    </div>
+    <div class="gdiv">🛡️</div>
+    <ul class="clist">
+      <li><a id="detail-phone" href="tel:"><span class="ci"><i class="fa fa-phone"></i></span><span id="dp-t">Phone</span></a></li>
+      <li><a id="detail-email" href="mailto:" target="_blank"><span class="ci"><i class="fa fa-envelope"></i></span><span id="dem-t">Email</span></a></li>
+      <li><a id="detail-fax" href="tel:" target="_blank"><span class="ci"><i class="fa fa-fax"></i></span><span id="dfax-t">Fax</span></a></li>
+      <li><a id="detail-address" href="#" target="_blank"><span class="ci"><i class="fa fa-map-marker-alt"></i></span><span id="daddr-t">Address</span></a></li>
+    </ul>
+    <div class="wabox">
+      <input maxlength="15" placeholder="Number with country code" type="tel" id="whatsapp-input">
+      <a class="wabtn" id="share-on-whatsapp-button" data-fullurl="#" href="javascript:;" target="_blank">
+        <i class="fab fa-whatsapp"></i> Share
+      </a>
+    </div>
+    <div class="ssrow">
+      <button class="svb" id="save-contact-btn"><i class="fa fa-download"></i> Save Contact</button>
+      <button class="shb" id="share-button" data-title="Shield Insurance" data-fullurl="#"><i class="fa fa-share-alt"></i> Share Card</button>
+    </div>
+    <div class="gdiv">—</div>
+    <div class="socrow">
+      <a id="social-facebook"   href="#" target="_blank"><i class="fab fa-facebook-f"></i></a>
+      <a id="social-instagram"  href="#" target="_blank"><i class="fab fa-instagram"></i></a>
+      <a id="social-youtube"    href="#" target="_blank"><i class="fab fa-youtube"></i></a>
+      <a id="social-twitter"    href="#" target="_blank"><i class="fab fa-twitter"></i></a>
+      <a id="social-linkedin"   href="#" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+      <a id="social-googleplus" href="#" target="_blank"><i class="fab fa-google"></i></a>
+    </div>
+  </div>
+</section>
+
+<div class="tbar">
+  <div class="tstat"><div class="num">500+</div><div class="lbl">Clients Protected</div></div>
+  <div class="tstat"><div class="num">15+</div><div class="lbl">Years Experience</div></div>
+  <div class="tstat"><div class="num">98%</div><div class="lbl">Claim Success</div></div>
+  <div class="tstat"><div class="num">24/7</div><div class="lbl">Support</div></div>
+</div>
+
+<section class="isec fu" id="about">
+  <div class="ey"><div class="eln"></div><span class="etxt">About</span></div>
+  <h2 class="stitle" id="about-heading">About Us <span>Know More</span></h2>
+  <div class="sdiv"></div>
+  <div class="abody">
+    <p id="about-para1">We are a professional team dedicated to delivering excellent insurance services. With years of experience, we bring quality, trust, and expertise to everything we do.</p>
+    <p id="about-para2">Our commitment to client satisfaction sets us apart. Feel free to reach out — we are always ready to help you protect what matters most.</p>
+  </div>
+  <div class="pills">
+    <span class="pill">🛡️ IRDAI Licensed</span>
+    <span class="pill">⭐ 5-Star Rated</span>
+    <span class="pill">📋 Certified Advisor</span>
+    <span class="pill">🏆 Award Winning</span>
+  </div>
+</section>
+
+<section class="isec alt fu" id="service">
+  <div class="ey"><div class="eln"></div><span class="etxt" id="service-eyebrow">Services</span></div>
+  <h2 class="stitle" id="service-heading">Services <span>We Offer</span></h2>
+  <div class="sdiv"></div>
+  <div class="pgrid" id="services-container"></div>
+</section>
+
+<section class="isec fu" id="gallery">
+  <div class="ey"><div class="eln"></div><span class="etxt" id="gallery-eyebrow">Gallery</span></div>
+  <h2 class="stitle" id="gallery-heading">Gallery <span>Our Work</span></h2>
+  <div class="sdiv"></div>
+  <div class="ggrid" id="gallery-container"></div>
+</section>
+
+<section class="isec alt fu" id="video">
+  <div class="ey"><div class="eln"></div><span class="etxt" id="video-eyebrow">Media</span></div>
+  <h2 class="stitle" id="video-heading">Videos <span>Watch Us</span></h2>
+  <div class="sdiv"></div>
+  <div class="vstack" id="videos-container"></div>
+</section>
+
+<section class="isec fu" id="payment">
+  <div class="ey"><div class="eln"></div><span class="etxt" id="payment-eyebrow">Payment</span></div>
+  <h2 class="stitle" id="payment-heading">Payment <span>We Accept</span></h2>
+  <div class="sdiv"></div>
+  <div class="paygrid" id="payment-container"></div>
+</section>
+
+<section class="isec alt fu" id="products" style="display:none">
+  <div class="ey"><div class="eln"></div><span class="etxt">Shop</span></div>
+  <h2 class="stitle" id="products-heading">Products <span>Shop Now</span></h2>
+  <div class="sdiv"></div>
+  <div class="prodgrid" id="products-container"></div>
+</section>
+
+<div id="custom-sections-area"></div>
+
+<section id="enquiry">
+  <div class="ey"><div class="eln"></div><span class="etxt">Contact</span></div>
+  <h2 class="stitle">Enquiry <span>Get a Quote</span></h2>
+  <div class="sdiv"></div>
+  <div class="ecard">
+    <form id="enquiry-form">
+      <div class="egrid">
+        <div class="efield"><label>Full Name</label><input type="text" required placeholder="Your full name" id="enq-fname" name="fname"></div>
+        <div class="efield"><label>Email</label><input type="email" required placeholder="your@email.com" id="enq-email" name="email"></div>
+        <div class="efield"><label>Phone</label><input type="tel" required placeholder="+91 XXXXX XXXXX" id="enq-phone" name="phone"></div>
+        <div class="efield"><label>Plan / Subject</label><input type="text" required placeholder="e.g. Life Insurance" id="enq-subject" name="subject"></div>
+        <div class="efield efull"><label>Message</label><textarea required placeholder="Tell us about your insurance needs…" id="enq-msg" name="msg"></textarea></div>
+      </div>
+      <button class="esub" type="submit"><i class="fas fa-paper-plane"></i> Send Enquiry</button>
+    </form>
+  </div>
+</section>
+
+<footer><p>© 2024 Shield Insurance vCard · Powered by vCard Master Admin</p></footer>
+
+<script src="assets/js/jquery.min.js"></script>
+<script>
+function openLB(s){document.getElementById('lb-img').src=s;document.getElementById('lb').classList.add('open')}
+function closeLB(){document.getElementById('lb').classList.remove('open')}
+function showToast(m){var t=document.getElementById('tst');t.textContent=m;t.classList.add('show');setTimeout(function(){t.classList.remove('show')},4000)}
+
+document.getElementById('theme-btn').addEventListener('click',function(){
+  document.body.classList.toggle('dark');
+  this.textContent=document.body.classList.contains('dark')?'☀️':'🌙';
+});
+
+function updateNav(){
+  var links=document.querySelectorAll('.snav a[data-s]');
+  var sy=window.scrollY+window.innerHeight/2;
+  links.forEach(function(a){
+    var s=document.getElementById(a.getAttribute('data-s'));
+    if(!s||s.style.display==='none'){a.classList.remove('active');return;}
+    a.classList.toggle('active',sy>=s.offsetTop&&sy<s.offsetTop+s.offsetHeight);
+  });
+}
+window.addEventListener('scroll',updateNav,{passive:true});
+
+var obs=new IntersectionObserver(function(en){en.forEach(function(e){if(e.isIntersecting){e.target.classList.add('v');obs.unobserve(e.target)}})},{threshold:.1});
+document.querySelectorAll('.fu').forEach(function(el){obs.observe(el)});
+
+document.getElementById('share-on-whatsapp-button').addEventListener('click',function(){
+  var n=document.getElementById('whatsapp-input').value.replace(/\s+/g,'');
+  var u=this.getAttribute('data-fullurl')||'#';
+  if(n)window.open('https://wa.me/'+n+'?text='+encodeURIComponent('Check out my card: '+u),'_blank');
+  else showToast('Please enter a WhatsApp number');
+});
+
+document.getElementById('share-button').addEventListener('click',function(){
+  var u=this.getAttribute('data-fullurl')||window.location.href;
+  var ti=this.getAttribute('data-title')||'Insurance vCard';
+  if(navigator.share)navigator.share({title:ti,url:u});
+  else{if(navigator.clipboard)navigator.clipboard.writeText(u);showToast('🔗 Link copied!')}
+});
+
+document.getElementById('save-contact-btn').addEventListener('click',function(){
+  var d=window._vcardData||{};
+  var v=['BEGIN:VCARD','VERSION:3.0','FN:'+(d.ownerName||''),'ORG:'+(d.businessName||''),
+    'TITLE:'+(d.bizPosition||''),'TEL;TYPE=CELL:'+(d.phone||''),'EMAIL:'+(d.email||''),
+    'ADR;TYPE=WORK:;;'+(d.address||'')+';;;;','URL:'+(d.websiteUrl||''),'END:VCARD'].join('\n');
+  var blob=new Blob([v],{type:'text/vcard'});
+  var a=document.createElement('a');a.href=URL.createObjectURL(blob);
+  a.download=(d.ownerName||'contact')+'.vcf';a.click();
+});
+</script>
+
+<script>
+(function(){
+  var SK='vcardAdminData',EK='vcardEnquiries';
+  var DEF={
+    businessName:'Business Name',ownerName:'Owner Name',
+    bizPosition:'Insurance Advisor',personType:'',
+    profileImg:'assets/images/profile.png',
+    phone:'+91 98765 43210',email:'demo@gmail.com',fax:'022-12345678',
+    address:'Mumbai, Maharashtra 400001',
+    mapsUrl:'https://maps.google.com',websiteUrl:'#',whatsappShareUrl:'#',
+    aboutTitle:'About Us',aboutSubtitle:'Know More',
+    aboutPara1:'We are a professional team dedicated to delivering excellent insurance services. With years of experience, we bring quality, trust, and expertise to everything we do.',
+    aboutPara2:'Our commitment to client satisfaction sets us apart. Feel free to reach out.',
+    serviceTitle:'Services',serviceSubtitle:'We Offer',
+    galleryTitle:'Gallery',gallerySubtitle:'Our Work',
+    videoTitle:'Videos',videoSubtitle:'Watch Us',
+    paymentTitle:'Payment',paymentSubtitle:'We Accept',
+    productsTitle:'Products',productsSubtitle:'Shop Now',
+    socialFacebook:'#',socialInstagram:'#',socialYoutube:'#',
+    socialTwitter:'#',socialLinkedin:'#',socialGoogleplus:'#',
+    showAbout:true,showService:true,showGallery:true,showVideo:true,
+    showPayment:true,showEnquiry:true,showProducts:false,
+    showViewCounter:true,showParticles:true,showThemeToggle:true,
+    viewCount:'2,100',accentColor:'',metaTitle:'',metaDesc:'',
+    services:[
+      {title:'Life Insurance',img:'assets/images/product.png'},
+      {title:'Health Insurance',img:'assets/images/product.png'},
+      {title:'Motor Insurance',img:'assets/images/product.png'},
+      {title:'Home Insurance',img:'assets/images/product.png'},
+      {title:'Travel Insurance',img:'assets/images/product.png'},
+      {title:'Business Cover',img:'assets/images/product.png'}
+    ],
+    gallery:[
+      {img:'assets/images/gallery.png'},{img:'assets/images/gallery.png'},
+      {img:'assets/images/gallery.png'},{img:'assets/images/gallery.png'},
+      {img:'assets/images/gallery.png'},{img:'assets/images/gallery.png'},
+      {img:'assets/images/gallery.png'},{img:'assets/images/gallery.png'},
+      {img:'assets/images/gallery.png'}
+    ],
+    videos:[{id:'dQw4w9WgXcQ',title:'Welcome to Shield Insurance'}],
+    payment:[
+      {title:'Cash',img:'assets/images/payment.png'},
+      {title:'UPI',img:'assets/images/payment.png'},
+      {title:'Card',img:'assets/images/payment.png'},
+      {title:'Net Banking',img:'assets/images/payment.png'}
+    ],
+    products:[],customSections:[]
+  };
+
+  var saved={};try{saved=JSON.parse(localStorage.getItem(SK))||{}}catch(e){}
+  var d=Object.assign({},DEF,saved);
+  ['services','gallery','videos','payment','products','customSections'].forEach(function(k){
+    d[k]=saved[k]?JSON.parse(JSON.stringify(saved[k])):JSON.parse(JSON.stringify(DEF[k]));
+  });
+  window._vcardData=d;
+
+  function $i(id){return document.getElementById(id)}
+  function st(id,v){var e=$i(id);if(e&&v!=null)e.textContent=v}
+  function sh(id,v){var e=$i(id);if(e&&v!=null)e.innerHTML=v}
+  function sa(id,a,v){var e=$i(id);if(e)e.setAttribute(a,v)}
+  function hide(id){var e=$i(id);if(e)e.style.display='none'}
+  function show(id,dv){var e=$i(id);if(e)e.style.display=dv||'block'}
+  function tog(sid,vis,nid){if(!vis){hide(sid);if(nid)hide(nid)}}
+  function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
+
+  st('business-name',d.businessName);
+  var bp=$i('biz-position');if(bp)bp.textContent=d.bizPosition;
+  st('person-type-display',d.personType);
+  sa('profile-img','src',d.profileImg);
+  sa('btn-call','href','tel:'+d.phone.replace(/\s+/g,''));
+  sa('btn-email','href','mailto:'+d.email);
+  sa('btn-website','href',d.websiteUrl);
+  sa('btn-direction','href',d.mapsUrl);
+
+  var dp=$i('detail-phone');if(dp){dp.href='tel:'+d.phone.replace(/\s+/g,'');st('dp-t',d.phone)}
+  var dem=$i('detail-email');if(dem){dem.href='mailto:'+d.email;st('dem-t',d.email)}
+  var dfax=$i('detail-fax');if(dfax){dfax.href='tel:'+d.fax.replace(/\s+/g,'');st('dfax-t',d.fax)}
+  var daddr=$i('detail-address');if(daddr){daddr.href=d.mapsUrl;st('daddr-t',d.address)}
+
+  var wab=$i('share-on-whatsapp-button');if(wab)wab.setAttribute('data-fullurl',d.whatsappShareUrl);
+  var sb=$i('share-button');if(sb){sb.setAttribute('data-fullurl',d.websiteUrl);sb.setAttribute('data-title',d.businessName)}
+
+  if(d.showViewCounter===false)hide('total-view');else st('view-count',d.viewCount);
+  if(d.showThemeToggle===false)hide('theme-changer-wrap');
+
+  var sm={'social-facebook':d.socialFacebook,'social-instagram':d.socialInstagram,
+    'social-youtube':d.socialYoutube,'social-twitter':d.socialTwitter,
+    'social-linkedin':d.socialLinkedin,'social-googleplus':d.socialGoogleplus||'#'};
+  Object.keys(sm).forEach(function(id){var e=$i(id);if(e)e.href=sm[id]||'#'});
+
+  tog('about',d.showAbout,'nav-about');
+  sh('about-heading',esc(d.aboutTitle)+' <span>'+esc(d.aboutSubtitle)+'</span>');
+  st('about-para1',d.aboutPara1);st('about-para2',d.aboutPara2);
+
+  tog('service',d.showService,'nav-service');
+  sh('service-heading',esc(d.serviceTitle)+' <span>'+esc(d.serviceSubtitle)+'</span>');
+  st('service-eyebrow',d.serviceTitle);
+  var sc=$i('services-container');
+  if(sc&&d.services&&d.services.length){
+    sc.innerHTML=d.services.map(function(item){
+      var img=item.img||'assets/images/product.png';
+      return '<div class="pcard" onclick="openLB(\''+img.replace(/'/g,"\\'")+'\')">'+
+        '<img src="'+img+'" class="pimg" alt="'+esc(item.title)+'">'+
+        '<div class="pname">'+esc(item.title)+'</div></div>';
+    }).join('');
+  }
+
+  tog('gallery',d.showGallery,'nav-gallery');
+  sh('gallery-heading',esc(d.galleryTitle)+' <span>'+esc(d.gallerySubtitle)+'</span>');
+  st('gallery-eyebrow',d.galleryTitle);
+  var gc=$i('gallery-container');
+  if(gc&&d.gallery&&d.gallery.length){
+    gc.innerHTML=d.gallery.map(function(item){
+      var img=item.img||'assets/images/gallery.png';
+      return '<div class="gitem" onclick="openLB(\''+img.replace(/'/g,"\\'")+'\')">'+
+        '<img src="'+img+'" alt="" loading="lazy"><div class="gov">🔍</div></div>';
+    }).join('');
+  }
+
+  tog('video',d.showVideo,'nav-video');
+  sh('video-heading',esc(d.videoTitle)+' <span>'+esc(d.videoSubtitle)+'</span>');
+  st('video-eyebrow',d.videoTitle);
+  var vc=$i('videos-container');
+  if(vc&&d.videos&&d.videos.length){
+    vc.innerHTML=d.videos.map(function(item){
+      if(item.localSrc)return '<div class="vwrap"><div class="vlbl">&#9654; '+esc(item.title||'Video')+'</div><video controls src="'+item.localSrc+'">Not supported.</video></div>';
+      return '<div class="vwrap"><div class="vlbl">&#9654; '+esc(item.title||'Video')+'</div>'+
+        '<iframe src="//www.youtube.com/embed/'+esc(item.id)+'" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen></iframe></div>';
+    }).join('');
+  }
+
+  tog('payment',d.showPayment,'nav-payment');
+  sh('payment-heading',esc(d.paymentTitle)+' <span>'+esc(d.paymentSubtitle)+'</span>');
+  st('payment-eyebrow',d.paymentTitle);
+  var pc=$i('payment-container');
+  if(pc&&d.payment&&d.payment.length){
+    pc.innerHTML=d.payment.map(function(item){
+      var img=item.img||'assets/images/payment.png';
+      return '<div class="paycard" onclick="openLB(\''+img.replace(/'/g,"\\'")+'\')">'+
+        '<img src="'+img+'" alt="'+esc(item.title)+'"><div class="pn">'+esc(item.title)+'</div></div>';
+    }).join('');
+  }
+
+  if(d.showProducts&&d.products&&d.products.length){
+    show('products','block');show('nav-products','flex');
+    sh('products-heading',esc(d.productsTitle)+' <span>'+esc(d.productsSubtitle)+'</span>');
+    var prc=$i('products-container');
+    if(prc){
+      prc.innerHTML=d.products.map(function(item){
+        var img=item.img?'<img src="'+item.img+'" alt="'+esc(item.name)+'">':
+          '<div style="width:100%;height:125px;background:var(--golddim);display:flex;align-items:center;justify-content:center;font-size:34px;">🛡️</div>';
+        var price=item.price?'<span class="prodprice">'+esc(item.price)+'</span>':'';
+        var buy=item.link?'<a class="prodbuy" href="'+esc(item.link)+'" target="_blank">'+esc(item.btn||'Get Quote')+' <i class="fas fa-arrow-right"></i></a>':'';
+        return '<div class="prodc"><div class="prodimgw">'+img+price+'</div>'+
+          '<div class="prodbody"><div class="prodname">'+esc(item.name)+'</div>'+
+          (item.desc?'<div class="proddesc">'+esc(item.desc)+'</div>':'')+buy+'</div></div>';
+      }).join('');
+    }
+  } else {hide('products');hide('nav-products')}
+
+  var csa=$i('custom-sections-area');
+  if(csa&&d.customSections&&d.customSections.length){
+    csa.innerHTML=d.customSections.map(function(sec,i){
+      var imgH=sec.img?'<img src="'+sec.img+'" alt="" class="cimg">':'';
+      var btn=(sec.btnLabel&&sec.btnLink)?'<a href="'+esc(sec.btnLink)+'" target="_blank" class="ccta">'+esc(sec.btnLabel)+' <i class="fas fa-arrow-right"></i></a>':'';
+      return '<div class="cblock" id="custom-sec-'+i+'">'+
+        '<div class="ey"><div class="eln"></div><span class="etxt">'+esc(sec.title)+'</span></div>'+
+        '<h2 class="stitle">'+esc(sec.title)+(sec.subtitle?' <span>'+esc(sec.subtitle)+'</span>':'')+' </h2>'+
+        '<div class="sdiv"></div>'+imgH+'<div class="ctxt">'+esc(sec.content||'')+'</div>'+btn+'</div>';
+    }).join('');
+  }
+
+  tog('enquiry',d.showEnquiry,'nav-enquiry');
+  var form=$i('enquiry-form');
+  if(form){
+    form.addEventListener('submit',function(e){
+      e.preventDefault();
+      var list=[];try{list=JSON.parse(localStorage.getItem(EK))||[]}catch(err){}
+      list.unshift({
+        name:$i('enq-fname')?$i('enq-fname').value:'',
+        email:$i('enq-email')?$i('enq-email').value:'',
+        phone:$i('enq-phone')?$i('enq-phone').value:'',
+        subject:$i('enq-subject')?$i('enq-subject').value:'',
+        message:$i('enq-msg')?$i('enq-msg').value:'',
+        date:new Date().toISOString().split('T')[0],status:'new'
+      });
+      localStorage.setItem(EK,JSON.stringify(list));
+      form.reset();
+      showToast("✅ Enquiry sent! We'll be in touch shortly.");
+    });
+  }
+
+  if(d.accentColor){
+    var se=$i('admin-theme-style');
+    if(se)se.innerHTML=':root{--gold:'+d.accentColor+';--gold2:'+d.accentColor+';}'+
+      '.hb-g,.esub,.ccta,.svb:hover{background:'+d.accentColor+' !important;color:var(--navy) !important}';
+  }
+
+  if(d.metaTitle&&d.metaTitle.trim())document.title=d.metaTitle;
+  var me=$i('meta-description');
+  if(me&&d.metaDesc&&d.metaDesc.trim())me.setAttribute('content',d.metaDesc);
+})();
+</script>
+</body>
+</html>
